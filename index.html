@@ -1,82 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Sri Anjineya Swami Geleyara Balaga</title>
-  <style>
-    /* Simple styling */
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f0f0;
-    }
-    form {
-      margin: 20px auto;
-      padding: 20px;
-      background-color: white;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      display: block;
-      margin: 10px auto;
-      padding: 8px;
-      width: 90%;
-    }
-    button {
-      padding: 10px 20px;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <title>Register Member</title>
+    <script>
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzjVqrb3uxprXDbesV1cbf3XXM3Mkn3600G8miGdnlVmiIPqWhJVfnVB8QTnuwgSiWd_w/exec"; // Replace with your actual URL
 
-  <h2>Sri Anjineya Swami Geleyara Balaga</h2>
+      function handleSubmit(event) {
+        event.preventDefault();
 
-  <form id="registerForm">
-    <input type="text" id="name" placeholder="Enter Name" required>
-    <input type="text" id="phone" placeholder="Enter Phone (10 digits)" required>
-    <button type="submit">Register</button>
-    <p id="message"></p>
-  </form>
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const amount = 100; // Fixed amount
 
-  <script>
-    document.getElementById("registerForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+        const data = { name, phone, amount };
 
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const messageBox = document.getElementById("message");
-
-      if (name === "" || phone.length !== 10) {
-        messageBox.innerText = "Please enter valid name and 10-digit phone number.";
-        return;
+        fetch(scriptURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.text())
+          .then((text) => {
+            alert("Server says: " + text);
+            document.getElementById("register-form").reset();
+          })
+          .catch((err) => console.error("Error:", err));
       }
-
-      // CHANGE THIS TO YOUR SCRIPT DEPLOYMENT URL
-      const scriptURL = "https://script.google.com/macros/s/AKfycbxVMwLe1L1tiefwh75-3Gn5P15u_MgrOTVKaJcJ4_E/exec";
-
-      fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify({ name: name, phone: phone, amount: 100 }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(res => res.text())
-      .then(response => {
-        if (response === "OK") {
-          messageBox.innerText = "Registered successfully!";
-        } else if (response === "Duplicate") {
-          messageBox.innerText = "Name already exists!";
-        } else {
-          messageBox.innerText = "Server error: " + response;
-        }
-      })
-      .catch(error => {
-        messageBox.innerText = "Request failed: " + error;
-      });
-    });
-  </script>
-
-</body>
+    </script>
+  </head>
+  <body>
+    <h2>Member Registration</h2>
+    <form id="register-form" onsubmit="handleSubmit(event)">
+      <label>Name: <input type="text" id="name" required /></label><br />
+      <label>Phone: <input type="text" id="phone" required /></label><br />
+      <button type="submit">Register</button>
+    </form>
+  </body>
 </html>
