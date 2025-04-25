@@ -65,40 +65,40 @@
   </div>
 
   <script>
-    document.getElementById("regForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const amount = document.getElementById("amount").value;
-      const message = document.getElementById("message");
+  function submitForm(e) {
+    e.preventDefault();
 
-      if (!/^\d{10}$/.test(phone)) {
-        message.textContent = "Enter a valid 10-digit phone number.";
-        message.className = "error";
-        return;
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const amount = document.getElementById("amount").value;
+
+    fetch("https://script.google.com/macros/s/AKfycbyCHGnISKWdrgc6s8e40r0iB_5FeOEhu2twbKTG8i2tbt5xmqLP8UeZCjDq7rRRTG0O9A/exec", {
+      method: "POST",
+      body: JSON.stringify({ name, phone, amount }),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.text())
+    .then(msg => {
+      if (msg === "Duplicate") {
+        document.getElementById("statusMessage").innerText = "This name is already registered.";
+      } else if (msg === "OK") {
+        document.getElementById("statusMessage").innerText = "Registered successfully!";
+      } else {
+        document.getElementById("statusMessage").innerText = "Unexpected response: " + msg;
       }
-
-      try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbyCHGnISKWdrgc6s8e40r0iB_5FeOEhu2twbKTG8i2tbt5xmqLP8UeZCjDq7rRRTG0O9A/exec", {
-          method: "POST",
-          body: JSON.stringify({ name, phone, amount }),
-          headers: { "Content-Type": "application/json" }
-        });
-
-        const result = await response.text();
-        if (result === "DUPLICATE") {
-          message.textContent = "This name is already registered.";
-          message.className = "error";
-        } else {
-          message.textContent = "Registered successfully!";
-          message.className = "success";
-          document.getElementById("regForm").reset();
-        }
-      } catch (err) {
-        message.textContent = "Error saving data.";
-        message.className = "error";
-      }
+    })
+    .catch(err => {
+      document.getElementById("statusMessage").innerText = "Error saving data.";
+      console.error("Error:", err);
     });
+  }
+    <form id="registrationForm" onsubmit="submitForm(event)">
+  <input type="text" id="name" placeholder="Enter your name" required>
+  <input type="text" id="phone" placeholder="Enter 10-digit phone number" pattern="\d{10}" required>
+  <input type="hidden" id="amount" value="100">
+  <button type="submit">Register</button>
+</form>
+<p id="statusMessage"></p>
   </script>
 </body>
 </html>
