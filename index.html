@@ -1,104 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Sri Anjineya Swami Geleyara Balaga</title>
   <style>
+    /* Simple styling */
     body {
       font-family: Arial, sans-serif;
-      background: url('your-background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-      color: #fff;
-    }
-    .container {
-      background-color: rgba(0, 0, 0, 0.75);
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
-    }
-    h1 {
       text-align: center;
+      background-color: #f0f0f0;
     }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-      border: none;
-    }
-    .success { color: lightgreen; }
-    .error { color: red; }
-    .updates {
-      margin-top: 30px;
-      background: #222;
-      padding: 15px;
-      border-radius: 10px;
-    }
-    img.qr {
-      display: block;
+    form {
       margin: 20px auto;
-      width: 200px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 8px;
+      width: 90%;
+    }
+    button {
+      padding: 10px 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Sri Anjineya Swami Geleyara Balaga</h1>
-    <form id="regForm">
-      <input type="text" id="name" placeholder="Enter your name" required>
-      <input type="text" id="phone" placeholder="Enter your 10-digit phone number" required>
-      <input type="hidden" id="amount" value="100">
-      <button type="submit">Register</button>
-      <div id="message"></div>
-    </form>
 
-    <img src="your-qr-code.png" alt="QR Code for Payment" class="qr">
+  <h2>Sri Anjineya Swami Geleyara Balaga</h2>
 
-    <div class="updates">
-      <h3>Admin Updates</h3>
-      <p>- Welcome to the group!</p>
-      <p>- Monthly amount is ₹100. Please pay using the QR above.</p>
-      <p>- Stay tuned for event updates.</p>
-    </div>
-  </div>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Enter Name" required>
+    <input type="text" id="phone" placeholder="Enter Phone (10 digits)" required>
+    <button type="submit">Register</button>
+    <p id="message"></p>
+  </form>
 
   <script>
-  function submitForm(e) {
-    e.preventDefault();
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const amount = document.getElementById("amount").value;
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const messageBox = document.getElementById("message");
 
-    fetch("https://script.google.com/macros/s/AKfycbyCHGnISKWdrgc6s8e40r0iB_5FeOEhu2twbKTG8i2tbt5xmqLP8UeZCjDq7rRRTG0O9A/exec", {
-      method: "POST",
-      body: JSON.stringify({ name, phone, amount }),
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(response => response.text())
-    .then(msg => {
-      if (msg === "Duplicate") {
-        document.getElementById("statusMessage").innerText = "This name is already registered.";
-      } else if (msg === "OK") {
-        document.getElementById("statusMessage").innerText = "Registered successfully!";
-      } else {
-        document.getElementById("statusMessage").innerText = "Unexpected response: " + msg;
+      if (name === "" || phone.length !== 10) {
+        messageBox.innerText = "Please enter valid name and 10-digit phone number.";
+        return;
       }
-    })
-    .catch(err => {
-      document.getElementById("statusMessage").innerText = "Error saving data.";
-      console.error("Error:", err);
+
+      // CHANGE THIS TO YOUR SCRIPT DEPLOYMENT URL
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxVMwLe1L1tiefwh75-3Gn5P15u_MgrOTVKaJcJ4_E/exec";
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({ name: name, phone: phone, amount: 100 }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.text())
+      .then(response => {
+        if (response === "OK") {
+          messageBox.innerText = "Registered successfully!";
+        } else if (response === "Duplicate") {
+          messageBox.innerText = "Name already exists!";
+        } else {
+          messageBox.innerText = "Server error: " + response;
+        }
+      })
+      .catch(error => {
+        messageBox.innerText = "Request failed: " + error;
+      });
     });
-  }
-    <form id="registrationForm" onsubmit="submitForm(event)">
-  <input type="text" id="name" placeholder="Enter your name" required>
-  <input type="text" id="phone" placeholder="Enter 10-digit phone number" pattern="\d{10}" required>
-  <input type="hidden" id="amount" value="100">
-  <button type="submit">Register</button>
-</form>
-<p id="statusMessage"></p>
   </script>
+
 </body>
 </html>
