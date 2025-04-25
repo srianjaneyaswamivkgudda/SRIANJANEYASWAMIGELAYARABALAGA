@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sri Anjineya Swami Geleyara Balaga</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('your-background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+      color: #fff;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    .success { color: lightgreen; }
+    .error { color: red; }
+    .updates {
+      margin-top: 30px;
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    img.qr {
+      display: block;
+      margin: 20px auto;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sri Anjineya Swami Geleyara Balaga</h1>
+    <form id="regForm">
+      <input type="text" id="name" placeholder="Enter your name" required>
+      <input type="text" id="phone" placeholder="Enter your 10-digit phone number" required>
+      <input type="hidden" id="amount" value="100">
+      <button type="submit">Register</button>
+      <div id="message"></div>
+    </form>
+
+    <img src="your-qr-code.png" alt="QR Code for Payment" class="qr">
+
+    <div class="updates">
+      <h3>Admin Updates</h3>
+      <p>- Welcome to the group!</p>
+      <p>- Monthly amount is ₹100. Please pay using the QR above.</p>
+      <p>- Stay tuned for event updates.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("regForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const amount = document.getElementById("amount").value;
+      const message = document.getElementById("message");
+
+      if (!/^\d{10}$/.test(phone)) {
+        message.textContent = "Enter a valid 10-digit phone number.";
+        message.className = "error";
+        return;
+      }
+
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbxVMwLe1L1tiefwh75-3Gn5P15u_MgrOTVKaJcJ4_E/exec", {
+          method: "POST",
+          body: JSON.stringify({ name, phone, amount }),
+          headers: { "Content-Type": "application/json" }
+        });
+
+        const result = await response.text();
+        if (result === "DUPLICATE") {
+          message.textContent = "This name is already registered.";
+          message.className = "error";
+        } else {
+          message.textContent = "Registered successfully!";
+          message.className = "success";
+          document.getElementById("regForm").reset();
+        }
+      } catch (err) {
+        message.textContent = "Error saving data.";
+        message.className = "error";
+      }
+    });
+  </script>
+</body>
+</html>
