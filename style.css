@@ -1,9 +1,9 @@
 body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+  background-image: url("village_background.jpg"); /* Replace with the actual filename and path if needed */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #333; /* Adjust text color as needed */
 }
 
 header {
