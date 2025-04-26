@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchSheetData() {
         console.log("Fetching data from:", fetchDataURL);
         fetch(fetchDataURL)
-            .then(response => {
-                console.log("Fetch response:", response);
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 membersData = data;
                 console.log("Data fetched:", membersData);
@@ -56,6 +53,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayMemberData(member) {
         let memberInfoHTML = `<p>Welcome, ${member["Member Name"]}!</p>`; // Adjust key if needed
+        memberInfoHTML += `<p>Member ID: ${member["Member ID"]}</p>`; // Adjust key if needed
+
+        // Display monthly contributions
+        memberInfoHTML += "<h3>Monthly Contributions:</h3><ul>";
+        const months = ['May 2025', 'June 2025', 'July 2025', 'Agust 2025', 'Sept 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026']; // Add all your month columns
+        months.forEach(month => {
+            if (member[month] !== undefined && member[month] !== null && member[month] !== '') {
+                memberInfoHTML += `<li>${month}: ₹${member[month]}</li>`;
+            } else {
+                memberInfoHTML += `<li>${month}: ₹0</li>`; // Or display a different message if no contribution
+            }
+        });
+        memberInfoHTML += "</ul>";
+
         memberDataDiv.innerHTML = memberInfoHTML;
     }
 
