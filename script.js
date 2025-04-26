@@ -8,20 +8,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ********************************************************************
     // IMPORTANT: REPLACE THIS WITH YOUR ACTUAL WEB APP URL FROM APPS SCRIPT
-    const fetchDataURL = "https://script.google.com/macros/s/AKfycbx7dxkH_FW3VEhzIXucd3ieWnEP2AKjvhODySMr-NZT/dev";
+    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec";
     // ********************************************************************
 
     let membersData = [];
 
     function fetchSheetData() {
+        console.log("Fetching data from:", fetchDataURL);
         fetch(fetchDataURL)
-            .then(response => response.json())
+            .then(response => {
+                console.log("Fetch response:", response);
+                return response.json();
+            })
             .then(data => {
                 membersData = data;
                 console.log("Data fetched:", membersData);
             })
             .catch(error => {
-                console.error("Error fetching data:", error);
+                console.error("Fetch error:", error);
                 alert("Failed to load member data.");
             });
     }
@@ -31,24 +35,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const usernameInput = document.getElementById('username').value.trim();
         const passwordInput = document.getElementById('password').value.trim();
 
-        const loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput); // Adjust keys if needed
+        if (membersData && membersData.length > 0) {
+            const loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput); // Assuming "Username" and "Password" are your keys
 
-        if (loggedInMember) {
-            loginSection.style.display = 'none';
-            qrCodeSection.style.display = 'block';
-            memberDataSection.style.display = 'block';
-            displayMemberData(loggedInMember);
+            if (loggedInMember) {
+                console.log("Login successful for:", loggedInMember["Member Name"]); // Adjust key if needed
+                loginSection.style.display = 'none';
+                qrCodeSection.style.display = 'block';
+                memberDataSection.style.display = 'block';
+                displayMemberData(loggedInMember);
+            } else {
+                console.log("Login failed.");
+                loginError.style.display = 'block';
+            }
         } else {
-            loginError.style.display = 'block';
+            console.log("No member data loaded yet.");
+            loginError.style.display = 'block'; // Or a more informative message
         }
     });
 
     function displayMemberData(member) {
         let memberInfoHTML = `<p>Welcome, ${member["Member Name"]}!</p>`; // Adjust key if needed
-
-        // Display other member data as needed
-        memberInfoHTML += `<p>Member ID: ${member["Member ID"]}</p>`;
-
         memberDataDiv.innerHTML = memberInfoHTML;
     }
 
