@@ -22,7 +22,7 @@ main {
     padding: 20px;
 }
 
-#login-section, #contribution-section, #admin-updates {
+#login-section, #qr-code-section, #member-data-section {
     background-color: white;
     padding: 20px;
     margin-bottom: 20px;
@@ -30,9 +30,13 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    color: #007bff;
-    margin-top: 0;
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+#login-form div {
+    margin-bottom: 10px;
 }
 
 label {
@@ -44,7 +48,6 @@ label {
 input[type="text"], input[type="password"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -69,7 +72,7 @@ button:hover {
     margin-top: 5px;
 }
 
-#contribution-details p {
+#member-data p {
     margin-bottom: 8px;
 }
 
