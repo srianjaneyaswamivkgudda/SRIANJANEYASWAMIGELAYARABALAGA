@@ -5,43 +5,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const contributionDetailsDiv = document.getElementById('contribution-details');
     const loginError = document.getElementById('login-error');
 
-    const fetchDataURL = "https://script.google.com/macros/s/AKfycbx7dxkH_FW3VEhzIXucd3ieWnEP2AKjvhODySMr-NZT/dev"; // Make sure this is correct
+    // ********************************************************************
+    // IMPORTANT: REPLACE THIS WITH YOUR ACTUAL WEB APP URL FROM APPS SCRIPT
+    const fetchDataURL = "YOUR_WEB_APP_URL_HERE";
+    // ********************************************************************
 
     let membersData = [];
+
     function fetchSheetData() {
-    console.log("Fetching data from:", fetchDataURL); // Log the URL being used
-    fetch(fetchDataURL)
-        .then(response => {
-            console.log("Fetch response:", response); // Log the entire response object
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`); // Handle non-200 responses
-            }
-            return response.json();
-        })
-        .then(data => {
-            membersData = data;
-            console.log("Data fetched successfully:", membersData);
-        })
-        .catch(error => {
-            console.error("Fetch error:", error); // Log the full error message
-            alert("Failed to load member data.");
-        });
+        console.log("Fetching data from:", fetchDataURL);
+        fetch(fetchDataURL)
+            .then(response => {
+                console.log("Fetch response:", response);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                membersData = data;
+                console.log("Data fetched successfully:", membersData);
+            })
+            .catch(error => {
+                console.error("Fetch error:", error);
+                alert("Failed to load member data.");
+            });
     }
 
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        const usernameInput = document.getElementById('username').value;
-        const passwordInput = document.getElementById('password').value;
+        const usernameInput = document.getElementById('username').value.trim();
+        const passwordInput = document.getElementById('password').value.trim();
+
+        console.log("Attempting login with:", { username: usernameInput, password: passwordInput });
 
         const loggedInMember = membersData.find(member => {
-            return member.Username === usernameInput && member.Password === passwordInput; // Using "Username" and "Password"
+            console.log("Comparing with member:", { Username: member.Username, Password: member.Password });
+            return member.Username === usernameInput && member.Password === passwordInput;
         });
 
         if (loggedInMember) {
+            console.log("Login successful for:", member["Member Name"]);
             loginSection.style.display = 'none';
             contributionSection.style.display = 'block';
             displayContributions(loggedInMember);
         } else {
+            console.log("Login failed.");
             loginError.style.display = 'block';
         }
     });
@@ -50,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let contributionsHTML = '';
         for (const key in member) {
             if (key === 'May 2025' || key === 'June 2025' || key === 'July 2025' || key === 'Agust 2025' || key === 'Sept 2025' || key === 'Oct 2025' || key === 'Nov 2025' || key === 'Dec 2025' || key === 'Jan 2026' || key === 'Feb 2026') {
-                contributionsHTML += `<p>${key}: ₹${member[key] || '0'}</p>`; // Handle empty contributions
+                contributionsHTML += `<p>${key}: ₹${member[key] || '0'}</p>`;
             }
         }
         contributionDetailsDiv.innerHTML = contributionsHTML;
