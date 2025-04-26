@@ -8,18 +8,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const fetchDataURL = "https://script.google.com/macros/s/AKfycbx7dxkH_FW3VEhzIXucd3ieWnEP2AKjvhODySMr-NZT/dev"; // Make sure this is correct
 
     let membersData = [];
-
     function fetchSheetData() {
-        fetch(fetchDataURL)
-            .then(response => response.json())
-            .then(data => {
-                membersData = data;
-                console.log("Data fetched:", membersData);
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-                alert("Failed to load member data.");
-            });
+    console.log("Fetching data from:", fetchDataURL); // Log the URL being used
+    fetch(fetchDataURL)
+        .then(response => {
+            console.log("Fetch response:", response); // Log the entire response object
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`); // Handle non-200 responses
+            }
+            return response.json();
+        })
+        .then(data => {
+            membersData = data;
+            console.log("Data fetched successfully:", membersData);
+        })
+        .catch(error => {
+            console.error("Fetch error:", error); // Log the full error message
+            alert("Failed to load member data.");
+        });
     }
 
     loginForm.addEventListener('submit', function(event) {
