@@ -5,12 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const contributionDetailsDiv = document.getElementById('contribution-details');
     const loginError = document.getElementById('login-error');
 
-    // Replace with your Web App URL from Apps Script
-    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec";
+    const fetchDataURL = "YOUR_WEB_APP_URL_HERE"; // Make sure this is correct
 
     let membersData = [];
 
-    // Function to fetch data from the Web App URL (returns JSON)
     function fetchSheetData() {
         fetch(fetchDataURL)
             .then(response => response.json())
@@ -24,13 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Handle login submission
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const usernameInput = document.getElementById('username').value;
         const passwordInput = document.getElementById('password').value;
 
-        const loggedInMember = membersData.find(member => member.usrname === usernameInput && member.psswd === passwordInput);
+        const loggedInMember = membersData.find(member => {
+            return member.Username === usernameInput && member.Password === passwordInput; // Using "Username" and "Password"
+        });
 
         if (loggedInMember) {
             loginSection.style.display = 'none';
@@ -41,17 +40,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Function to display member contributions
     function displayContributions(member) {
         let contributionsHTML = '';
         for (const key in member) {
-            if (key.includes('months till') || key === 'Total Contribution') {
-                contributionsHTML += `<p>${key}: ₹${member[key]}</p>`;
+            if (key === 'May 2025' || key === 'June 2025' || key === 'July 2025' || key === 'Agust 2025' || key === 'Sept 2025' || key === 'Oct 2025' || key === 'Nov 2025' || key === 'Dec 2025' || key === 'Jan 2026' || key === 'Feb 2026') {
+                contributionsHTML += `<p>${key}: ₹${member[key] || '0'}</p>`; // Handle empty contributions
             }
         }
         contributionDetailsDiv.innerHTML = contributionsHTML;
     }
 
-    // Fetch data when the page loads
     fetchSheetData();
 });
