@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const loginSection = document.getElementById('login-section');
-    const contributionSection = document.getElementById('contribution-section');
-    const contributionDetailsDiv = document.getElementById('contribution-details');
+    const qrCodeSection = document.getElementById('qr-code-section');
+    const memberDataSection = document.getElementById('member-data-section');
+    const memberDataDiv = document.getElementById('member-data');
     const loginError = document.getElementById('login-error');
 
     // ********************************************************************
@@ -13,21 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let membersData = [];
 
     function fetchSheetData() {
-        console.log("Fetching data from:", fetchDataURL);
         fetch(fetchDataURL)
-            .then(response => {
-                console.log("Fetch response:", response);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 membersData = data;
-                console.log("Data fetched successfully:", membersData);
+                console.log("Data fetched:", membersData);
             })
             .catch(error => {
-                console.error("Fetch error:", error);
+                console.error("Error fetching data:", error);
                 alert("Failed to load member data.");
             });
     }
@@ -37,32 +31,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const usernameInput = document.getElementById('username').value.trim();
         const passwordInput = document.getElementById('password').value.trim();
 
-        console.log("Attempting login with:", { username: usernameInput, password: passwordInput });
-
-        const loggedInMember = membersData.find(member => {
-            console.log("Comparing with member:", { Username: member.Username, Password: member.Password });
-            return member.Username === usernameInput && member.Password === passwordInput;
-        });
+        const loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput); // Adjust keys if needed
 
         if (loggedInMember) {
-            console.log("Login successful for:", member["Member Name"]);
             loginSection.style.display = 'none';
-            contributionSection.style.display = 'block';
-            displayContributions(loggedInMember);
+            qrCodeSection.style.display = 'block';
+            memberDataSection.style.display = 'block';
+            displayMemberData(loggedInMember);
         } else {
-            console.log("Login failed.");
             loginError.style.display = 'block';
         }
     });
 
-    function displayContributions(member) {
-        let contributionsHTML = '';
-        for (const key in member) {
-            if (key === 'May 2025' || key === 'June 2025' || key === 'July 2025' || key === 'Agust 2025' || key === 'Sept 2025' || key === 'Oct 2025' || key === 'Nov 2025' || key === 'Dec 2025' || key === 'Jan 2026' || key === 'Feb 2026') {
-                contributionsHTML += `<p>${key}: ₹${member[key] || '0'}</p>`;
-            }
-        }
-        contributionDetailsDiv.innerHTML = contributionsHTML;
+    function displayMemberData(member) {
+        let memberInfoHTML = `<p>Welcome, ${member["Member Name"]}!</p>`; // Adjust key if needed
+
+        // Display other member data as needed
+        memberInfoHTML += `<p>Member ID: ${member["Member ID"]}</p>`;
+
+        memberDataDiv.innerHTML = memberInfoHTML;
     }
 
     fetchSheetData();
