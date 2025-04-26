@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contributionDetailsDiv = document.getElementById('contribution-details');
     const loginError = document.getElementById('login-error');
 
-    const fetchDataURL = "YOUR_WEB_APP_URL_HERE"; // Make sure this is correct
+    const fetchDataURL = "https://script.google.com/macros/s/AKfycbx7dxkH_FW3VEhzIXucd3ieWnEP2AKjvhODySMr-NZT/dev"; // Make sure this is correct
 
     let membersData = [];
 
