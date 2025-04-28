@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const utrNumberInput = document.getElementById('utr-number').value.trim();
 
-        if (utrNumberInput.length >= 10 && loggedInMember && loggedInMember.Username) { // Check if logged in
+        if (utrNumberInput.length >= 12 && loggedInMember && loggedInMember.Username) { // Check if logged in
             const recordUTRURL = fetchDataURL + "?action=recordUTR&username=" + encodeURIComponent(loggedInMember.Username) + "&utr=" + encodeURIComponent(utrNumberInput);
 
             fetch(recordUTRURL)
