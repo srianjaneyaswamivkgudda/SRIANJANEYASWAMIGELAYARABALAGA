@@ -86,7 +86,7 @@
         generateQRCode(memberId);
 
         function fetchContributions() {
-            fetch(`YOUR_APPS_SCRIPT_WEB_APP_URL?action=getContributions&memberId=${encodeURIComponent(memberId)}`) // Replace with your actual URL
+            fetch('https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec'action=getContributions&memberId=${encodeURIComponent(memberId)}`) // Replace with your actual URL
                 .then(response => response.json())
                 .then(data => {
                     const tableBody = document.getElementById('contributionsTable').getElementsByTagName('tbody')[0];
@@ -111,7 +111,7 @@
             const utrError = document.getElementById('utrError');
 
             if (/^\d{12}$/.test(utr)) {
-                fetch('YOUR_APPS_SCRIPT_WEB_APP_URL', { // Replace with your actual URL
+                fetch('https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec', { // Replace with your actual URL
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
