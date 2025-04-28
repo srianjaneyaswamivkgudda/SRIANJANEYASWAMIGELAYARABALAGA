@@ -3,67 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRI ANJANEYASWAMY GELAYARA BALAGA - Venukallugudda</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background-image: url('your-background-image.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .login-container { background-color: rgba(255, 255, 255, 0.8); padding: 30px; border-radius: 8px; width: 350px; text-align: center; box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); }
-        h1 { color: #007bff; margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-        input[type="text"], input[type="password"] { width: calc(100% - 20px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
-        button { background-color: #5cb85c; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #4cae4c; }
-        #loginError { color: red; margin-top: 10px; }
-        .stylish-heading { font-family: 'Georgia', serif; font-size: 2.5em; margin-bottom: 10px; }
-        .village-name { font-size: 1.2em; color: #555; margin-bottom: 20px; }
-    </style>
+    <title>Sri Anjaneyaswamy Gelayara Balaga</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h1 class="stylish-heading">SRI ANJANEYASWAMY GELAYARA BALAGA</h1>
-        <p class="village-name">Venukallugudda</p>
-        <h2>Member Login</h2>
-        <form id="loginForm">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
-            <p id="loginError" style="display: none;"></p>
-        </form>
-    </div>
+    <header>
+        <h1>SRI ANJANEYASWAMY GELAYARA BALAGA</h1>
+        <p class="village-name">venukallugudda</p>
+    </header>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const loginError = document.getElementById('loginError');
+    <main>
+        <section id="login-section">
+            <h2>Member Login</h2>
+            <form id="login-form">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+                <p id="login-error" class="error-message" style="display:none;">Invalid credentials.</p>
+            </form>
+        </section>
 
-            // Make a POST request to your Google Apps Script web app for authentication
-            fetch('YOUR_APPS_SCRIPT_WEB_APP_URL', { // Replace with your actual URL
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    localStorage.setItem('memberId', data.memberId); // Store member ID
-                    localStorage.setItem('memberName', data.memberName); // Store member name
-                    window.location.href = 'dashboard.html';
-                } else {
-                    loginError.textContent = 'Invalid username or password.';
-                    loginError.style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('Error during login:', error);
-                loginError.textContent = 'An error occurred during login.';
-                loginError.style.display = 'block';
-            });
-        });
-    </script>
+        <section id="qr-code-section" style="display:none;">
+            <h2>Payment QR Code</h2>
+            <img id="qr-code-image" src="your_qr_code.png" alt="Payment QR Code">
+        </section>
+
+        <section id="member-data-section" style="display:none;">
+            <h2>Member Information</h2>
+            <div id="member-data">
+                </div>
+            <section id="contribution-section">
+                <h3>Record Contribution</h3>
+                <form id="contribution-form">
+                    <div>
+                        <label for="utr-number">UTR Number:</label>
+                        <input type="text" id="utr-number" name="utr-number" required>
+                    </div>
+                    <button type="submit">Submit UTR</button>
+                    <p id="contribution-message" style="display:none; color: green; margin-top: 10px;"></p>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SRI ANJANEYASWAMY GELAYARA BALAGA</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
