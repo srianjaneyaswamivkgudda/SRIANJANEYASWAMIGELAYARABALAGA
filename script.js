@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginError = document.getElementById('login-error');
     const contributionForm = document.getElementById('contribution-form');
     const contributionMessage = document.getElementById('contribution-message');
+    const transactionDateInput = document.getElementById('transaction-date');
+    const amountInput = document.getElementById('amount');
+    const paymentMethodInput = document.getElementById('payment-method');
 
     // ********************************************************************
     // IMPORTANT: REPLACE THIS WITH YOUR ACTUAL WEB APP URL FROM APPS SCRIPT
@@ -14,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ********************************************************************
 
     let membersData = [];
-    let loggedInMember = null; // To store the logged-in member's data
+    let loggedInMember = null;
 
     function fetchSheetData() {
         console.log("Fetching data from:", fetchDataURL);
@@ -35,10 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const usernameInput = document.getElementById('username').value.trim();
         const passwordInput = document.getElementById('password').value.trim();
 
-        loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput); // Assuming "Username" and "Password" are your keys
+        loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput);
 
         if (loggedInMember) {
-            console.log("Login successful for:", loggedInMember["Member Name"]); // Adjust key if needed
+            console.log("Login successful for:", loggedInMember["Member Name"]);
             loginSection.style.display = 'none';
             qrCodeSection.style.display = 'block';
             memberDataSection.style.display = 'block';
@@ -50,21 +53,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function displayMemberData(member) {
-        loggedInMember = member; // Ensure loggedInMember is set when member data is displayed
-        let memberInfoHTML = `<p>Welcome, ${member["Member Name"]}!</p>`; // Adjust key if needed
-        memberInfoHTML += `<p>Member ID: ${member["Member ID"]}</p>`; // Adjust key if needed
-        if (member["Balance"] !== undefined) { // Assuming you have a "Balance" column
-            memberInfoHTML += `<p>Current Balance: ₹${member["Balance"]}</p>`; // Adjust key if needed
+        loggedInMember = member;
+        let memberInfoHTML = `<p>Welcome, ${member["Member Name"]}!</p>`;
+        memberInfoHTML += `<p>Member ID: ${member["Member ID"]}</p>`;
+        if (member["Balance"] !== undefined) {
+            memberInfoHTML += `<p>Current Balance: ₹${member["Balance"]}</p>`;
         }
 
-        // Display monthly contributions
         memberInfoHTML += "<h3>Monthly Contributions:</h3><ul>";
-        const months = ['May 2025', 'June 2025', 'July 2025', 'Agust 2025', 'Sept 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026']; // Add all your month columns
+        const months = ['May 2025', 'June 2025', 'July 2025', 'Agust 2025', 'Sept 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026'];
         months.forEach(month => {
             if (member[month] !== undefined && member[month] !== null && member[month] !== '') {
                 memberInfoHTML += `<li>${month}: ₹${member[month]}</li>`;
             } else {
-                memberInfoHTML += `<li>${month}: ₹0</li>`; // Or display a different message if no contribution
+                memberInfoHTML += `<li>${month}: ₹0</li>`;
             }
         });
         memberInfoHTML += "</ul>";
@@ -75,38 +77,55 @@ document.addEventListener('DOMContentLoaded', function() {
     contributionForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const utrNumberInput = document.getElementById('utr-number').value.trim();
+        const transactionDateValue = transactionDateInput.value;
+        const amountValue = amountInput.value;
+        const paymentMethodValue = paymentMethodInput.value;
 
-        if (utrNumberInput === "12" && loggedInMember && loggedInMember.Username) { // Check if logged in *and* UTR is "12" for testing
-            const recordUTRURL = fetchDataURL + "?action=recordUTR&username=" + encodeURIComponent(loggedInMember.Username) + "&utr=" + encodeURIComponent(utrNumberInput);
+        // UTR Validation TEMPORARILY REMOVED for testing
+        if (utrNumberInput && transactionDateValue && amountValue && loggedInMember && loggedInMember.Username) {
+            const recordTransactionURL = fetchDataURL + "?action=recordTransaction" +
+                                         "&username=" + encodeURIComponent(loggedInMember.Username) +
+                                         "&utr=" + encodeURIComponent(utrNumberInput) +
+                                         "&date=" + encodeURIComponent(transactionDateValue) +
+                                         "&amount=" + encodeURIComponent(amountValue) +
+                                         "&method=" + encodeURIComponent(paymentMethodValue);
 
-            fetch(recordUTRURL)
+            fetch(recordTransactionURL)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
-                        contributionMessage.textContent = "UTR recorded successfully.";
+                        contributionMessage.textContent = "Transaction recorded successfully.";
                         contributionMessage.style.display = 'block';
                         contributionMessage.style.color = 'green';
                         contributionForm.reset();
-                        console.log("UTR recorded for:", loggedInMember.Username, "UTR:", utrNumberInput);
-                        // Optionally, you might want to refresh the member data
-                        // fetchSheetData();
+                        console.log("Transaction recorded for:", loggedInMember.Username, "UTR:", utrNumberInput);
                     } else {
-                        contributionMessage.textContent = "Failed to record UTR: " + data.message;
+                        contributionMessage.textContent = "Failed to record transaction: " + data.message;
                         contributionMessage.style.display = 'block';
                         contributionMessage.style.color = 'red';
-                        console.error("Failed to record UTR:", data);
+                        console.error("Failed to record transaction:", data);
                     }
                 })
                 .catch(error => {
                     contributionMessage.textContent = "Error communicating with server.";
                     contributionMessage.style.display = 'block';
                     contributionMessage.style.color = 'red';
-                    console.error("Error sending UTR:", error);
+                    console.error("Error sending transaction data:", error);
                 });
         } else {
-            contributionMessage.textContent = loggedInMember ? "Invalid UTR number (must be '12' for this test)." : "Please log in to record UTR.";
+            let errorMessage = "Please fill in all required transaction details.";
+            if (!loggedInMember) {
+                errorMessage = "Please log in to record transaction.";
+            } else if (!utrNumberInput) {
+                errorMessage = "Please enter the UTR number.";
+            } else if (!transactionDateValue) {
+                errorMessage = "Please enter the transaction date.";
+            } else if (!amountValue) {
+                errorMessage = "Please enter the transaction amount.";
+            }
+            contributionMessage.textContent = errorMessage;
             contributionMessage.style.display = 'block';
-            contributionMessage.style.color = loggedInMember ? 'red' : 'orange';
+            contributionMessage.style.color = 'red';
         }
     });
 
