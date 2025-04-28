@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ********************************************************************
     // IMPORTANT: REPLACE THIS WITH YOUR ACTUAL WEB APP URL FROM APPS SCRIPT
-    const fetchDataURL = "YOUR_WEB_APP_URL_HERE";
+    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec";
     // ********************************************************************
 
     let membersData = [];
