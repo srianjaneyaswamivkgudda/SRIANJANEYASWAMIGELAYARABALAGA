@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function displayMemberData(member) {
-        loggedInMember = member; // Store the logged-in member's data
+        loggedInMember = member; // Ensure loggedInMember is set when member data is displayed
         let memberInfoHTML = `<p>Welcome, ${member["Member Name"]}!</p>`; // Adjust key if needed
         memberInfoHTML += `<p>Member ID: ${member["Member ID"]}</p>`; // Adjust key if needed
         if (member["Balance"] !== undefined) { // Assuming you have a "Balance" column
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const utrNumberInput = document.getElementById('utr-number').value.trim();
 
-        if (utrNumberInput.length >= 12 && loggedInMember && loggedInMember.Username) { // Check if logged in
+        if (utrNumberInput === "12" && loggedInMember && loggedInMember.Username) { // Check if logged in *and* UTR is "12" for testing
             const recordUTRURL = fetchDataURL + "?action=recordUTR&username=" + encodeURIComponent(loggedInMember.Username) + "&utr=" + encodeURIComponent(utrNumberInput);
 
             fetch(recordUTRURL)
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error("Error sending UTR:", error);
                 });
         } else {
-            contributionMessage.textContent = loggedInMember ? "Invalid UTR number format." : "Please log in to record UTR.";
+            contributionMessage.textContent = loggedInMember ? "Invalid UTR number (must be '12' for this test)." : "Please log in to record UTR.";
             contributionMessage.style.display = 'block';
             contributionMessage.style.color = loggedInMember ? 'red' : 'orange';
         }
