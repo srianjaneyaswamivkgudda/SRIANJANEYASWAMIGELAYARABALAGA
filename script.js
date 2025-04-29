@@ -11,16 +11,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
     const paymentMethodInput = document.getElementById('payment-method');
 
-    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec"; // <-- replace with your actual URL
+    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec"; // <-- Replace with your URL
 
     let membersData = [];
     let loggedInMember = null;
+    let dataLoaded = false;
 
     function fetchSheetData() {
         fetch(fetchDataURL)
             .then(response => response.json())
             .then(data => {
                 membersData = data;
+                dataLoaded = true; // 🔥 Data loaded
+                console.log("Fetched members:", membersData);
             })
             .catch(error => {
                 console.error("Fetch error:", error);
@@ -30,12 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
+
+        if (!dataLoaded) {
+            alert("Please wait... Loading members data.");
+            return;
+        }
+
         const usernameInput = document.getElementById('username').value.trim();
         const passwordInput = document.getElementById('password').value.trim();
 
-        loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput);
+        loggedInMember = membersData.find(member => 
+            member.Username?.trim() === usernameInput && 
+            member.Password?.trim() === passwordInput
+        );
 
         if (loggedInMember) {
+            loginError.style.display = 'none';
             loginSection.style.display = 'none';
             qrCodeSection.style.display = 'block';
             memberDataSection.style.display = 'block';
@@ -46,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function displayMemberData(member) {
-        loggedInMember = member;
         let memberInfoHTML = `<p>Welcome, ${member["Member Name"] || 'Member'}!</p>`;
         memberInfoHTML += `<p>Member ID: ${member["Member ID"] || 'N/A'}</p>`;
         if (member["Balance"] !== undefined) {
