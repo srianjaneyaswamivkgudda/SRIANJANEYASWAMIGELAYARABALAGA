@@ -11,44 +11,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
     const paymentMethodInput = document.getElementById('payment-method');
 
-    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec"; // <-- Replace with your URL
+    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec"; 
+    // <<<<<<<<<<<< Replace with your real Apps Script URL
 
     let membersData = [];
     let loggedInMember = null;
-    let dataLoaded = false;
 
     function fetchSheetData() {
         fetch(fetchDataURL)
             .then(response => response.json())
             .then(data => {
                 membersData = data;
-                dataLoaded = true; // 🔥 Data loaded
-                console.log("Fetched members:", membersData);
             })
             .catch(error => {
-                console.error("Fetch error:", error);
                 alert("Failed to load member data.");
             });
     }
 
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
-
-        if (!dataLoaded) {
-            alert("Please wait... Loading members data.");
-            return;
-        }
-
         const usernameInput = document.getElementById('username').value.trim();
         const passwordInput = document.getElementById('password').value.trim();
 
-        loggedInMember = membersData.find(member => 
-            member.Username?.trim() === usernameInput && 
-            member.Password?.trim() === passwordInput
-        );
+        loggedInMember = membersData.find(member => member.Username === usernameInput && member.Password === passwordInput);
 
         if (loggedInMember) {
-            loginError.style.display = 'none';
             loginSection.style.display = 'none';
             qrCodeSection.style.display = 'block';
             memberDataSection.style.display = 'block';
@@ -59,61 +46,54 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function displayMemberData(member) {
-        let memberInfoHTML = `<p>Welcome, ${member["Member Name"] || 'Member'}!</p>`;
-        memberInfoHTML += `<p>Member ID: ${member["Member ID"] || 'N/A'}</p>`;
-        if (member["Balance"] !== undefined) {
-            memberInfoHTML += `<p>Current Balance: ₹${member["Balance"] || 0}</p>`;
+        let html = `<p>Welcome, ${member["Member Name"]}!</p>`;
+        html += `<p>Member ID: ${member["Member ID"]}</p>`;
+        if (member["Balance"]) {
+            html += `<p>Current Balance: ₹${member["Balance"]}</p>`;
         }
+        html += "<h3>Monthly Contributions:</h3><ul>";
 
-        memberInfoHTML += "<h3>Monthly Contributions:</h3><ul>";
-        const months = ['May 2025', 'June 2025', 'July 2025', 'August 2025', 'September 2025', 'October 2025', 'November 2025', 'December 2025', 'January 2026', 'February 2026'];
+        const months = ['May 2025', 'June 2025', 'July 2025', 'Agust 2025', 'Sept 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026'];
         months.forEach(month => {
-            const contribution = member[month] || 0;
-            memberInfoHTML += `<li>${month}: ₹${contribution}</li>`;
+            html += `<li>${month}: ₹${member[month] || 0}</li>`;
         });
-        memberInfoHTML += "</ul>";
+        html += "</ul>";
 
-        memberDataDiv.innerHTML = memberInfoHTML;
+        memberDataDiv.innerHTML = html;
     }
 
     contributionForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        const utrNumberInput = document.getElementById('utr-number').value.trim();
-        const transactionDateValue = transactionDateInput.value;
-        const amountValue = amountInput.value;
-        const paymentMethodValue = paymentMethodInput.value;
+        const utr = document.getElementById('utr-number').value.trim();
+        const date = transactionDateInput.value;
+        const amount = amountInput.value;
+        const method = paymentMethodInput.value;
 
-        if (utrNumberInput && transactionDateValue && amountValue && loggedInMember && loggedInMember.Username) {
-            const recordTransactionURL = fetchDataURL + "?action=recordTransaction" +
-                                         "&username=" + encodeURIComponent(loggedInMember.Username) +
-                                         "&utr=" + encodeURIComponent(utrNumberInput) +
-                                         "&date=" + encodeURIComponent(transactionDateValue) +
-                                         "&amount=" + encodeURIComponent(amountValue) +
-                                         "&method=" + encodeURIComponent(paymentMethodValue);
+        if (utr && date && amount && loggedInMember && loggedInMember.Username) {
+            const url = fetchDataURL + `?action=recordTransaction&username=${encodeURIComponent(loggedInMember.Username)}&utr=${encodeURIComponent(utr)}&date=${encodeURIComponent(date)}&amount=${encodeURIComponent(amount)}&method=${encodeURIComponent(method)}`;
 
-            fetch(recordTransactionURL)
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
                         contributionMessage.textContent = "Transaction recorded successfully.";
-                        contributionMessage.style.display = 'block';
-                        contributionMessage.style.color = 'green';
+                        contributionMessage.style.color = "green";
                         contributionForm.reset();
                     } else {
-                        contributionMessage.textContent = "Failed to record transaction: " + data.message;
-                        contributionMessage.style.display = 'block';
-                        contributionMessage.style.color = 'red';
+                        contributionMessage.textContent = "Error: " + data.message;
+                        contributionMessage.style.color = "red";
                     }
+                    contributionMessage.style.display = "block";
                 })
                 .catch(error => {
-                    contributionMessage.textContent = "Error communicating with server.";
-                    contributionMessage.style.display = 'block';
-                    contributionMessage.style.color = 'red';
+                    contributionMessage.textContent = "Server Error.";
+                    contributionMessage.style.color = "red";
+                    contributionMessage.style.display = "block";
                 });
         } else {
-            contributionMessage.textContent = "Please fill all details.";
-            contributionMessage.style.display = 'block';
-            contributionMessage.style.color = 'red';
+            contributionMessage.textContent = "Fill all transaction details.";
+            contributionMessage.style.color = "red";
+            contributionMessage.style.display = "block";
         }
     });
 
