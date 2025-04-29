@@ -11,10 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
     const paymentMethodInput = document.getElementById('payment-method');
 
-    // ********************************************************************
-    // IMPORTANT: REPLACE THIS WITH YOUR ACTUAL WEB APP URL FROM APPS SCRIPT
     const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec";
-    // ********************************************************************
 
     let membersData = [];
     let loggedInMember = null;
@@ -61,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         memberInfoHTML += "<h3>Monthly Contributions:</h3><ul>";
-        const months = ['May 2025', 'June 2025', 'July 2025', 'Agust 2025', 'Sept 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026'];
+        const months = ['May 2025', 'June 2025', 'July 2025', 'August 2025', 'Sept 2025', 'Oct 2025', 'Nov 2025', 'Dec 2025', 'Jan 2026', 'Feb 2026'];
         months.forEach(month => {
             if (member[month] !== undefined && member[month] !== null && member[month] !== '') {
                 memberInfoHTML += `<li>${month}: ₹${member[month]}</li>`;
@@ -81,37 +78,43 @@ document.addEventListener('DOMContentLoaded', function() {
         const amountValue = amountInput.value;
         const paymentMethodValue = paymentMethodInput.value;
 
-        // UTR Validation TEMPORARILY REMOVED for testing
         if (utrNumberInput && transactionDateValue && amountValue && loggedInMember && loggedInMember.Username) {
-            const recordTransactionURL = fetchDataURL + "?action=recordTransaction" +
-                                         "&username=" + encodeURIComponent(loggedInMember.Username) +
-                                         "&utr=" + encodeURIComponent(utrNumberInput) +
-                                         "&date=" + encodeURIComponent(transactionDateValue) +
-                                         "&amount=" + encodeURIComponent(amountValue) +
-                                         "&method=" + encodeURIComponent(paymentMethodValue);
+            const formData = new URLSearchParams();
+            formData.append("action", "recordTransaction");
+            formData.append("username", loggedInMember.Username);
+            formData.append("utr", utrNumberInput);
+            formData.append("date", transactionDateValue);
+            formData.append("amount", amountValue);
+            formData.append("method", paymentMethodValue);
 
-            fetch(recordTransactionURL)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        contributionMessage.textContent = "Transaction recorded successfully.";
-                        contributionMessage.style.display = 'block';
-                        contributionMessage.style.color = 'green';
-                        contributionForm.reset();
-                        console.log("Transaction recorded for:", loggedInMember.Username, "UTR:", utrNumberInput);
-                    } else {
-                        contributionMessage.textContent = "Failed to record transaction: " + data.message;
-                        contributionMessage.style.display = 'block';
-                        contributionMessage.style.color = 'red';
-                        console.error("Failed to record transaction:", data);
-                    }
-                })
-                .catch(error => {
-                    contributionMessage.textContent = "Error communicating with server.";
+            fetch(fetchDataURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    contributionMessage.textContent = "Transaction recorded successfully.";
+                    contributionMessage.style.display = 'block';
+                    contributionMessage.style.color = 'green';
+                    contributionForm.reset();
+                    console.log("Transaction recorded for:", loggedInMember.Username, "UTR:", utrNumberInput);
+                } else {
+                    contributionMessage.textContent = "Failed to record transaction: " + data.message;
                     contributionMessage.style.display = 'block';
                     contributionMessage.style.color = 'red';
-                    console.error("Error sending transaction data:", error);
-                });
+                    console.error("Failed to record transaction:", data);
+                }
+            })
+            .catch(error => {
+                contributionMessage.textContent = "Error communicating with server.";
+                contributionMessage.style.display = 'block';
+                contributionMessage.style.color = 'red';
+                console.error("Error sending transaction data:", error);
+            });
         } else {
             let errorMessage = "Please fill in all required transaction details.";
             if (!loggedInMember) {
