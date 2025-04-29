@@ -1,51 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sri Anjaneyaswami Gelayara Balaga - Venukallugudda</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sri Anjaneyaswami Gelayara Balaga</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-image"></div>
+  <div class="background"></div>
+  <div class="login-container" id="login-section">
+    <h1>Sri Anjaneyaswami Gelayara Balaga - Venukallugudda</h1>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+    <p id="login-error" style="display:none; color: red;">Invalid username or password</p>
+  </div>
 
-    <div class="container">
-        <h1>Sri Anjaneyaswami Gelayara Balaga</h1>
-        <h2>Venukallugudda</h2>
+  <div id="member-data-section" style="display:none;">
+    <div id="member-data"></div>
+    <form id="contribution-form">
+      <input type="text" id="utr-number" placeholder="UTR Number" required><br>
+      <input type="date" id="transaction-date" required><br>
+      <input type="number" id="amount" placeholder="Amount" required><br>
+      <input type="text" id="payment-method" placeholder="Payment Method"><br>
+      <button type="submit">Submit Transaction</button>
+    </form>
+    <p id="contribution-message" style="display:none;"></p>
+  </div>
 
-        <section id="login-section">
-            <form id="login-form">
-                <h3>Member Login</h3>
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-                <p id="login-error" style="color:red; display:none;">Invalid Username or Password</p>
-            </form>
-        </section>
-
-        <section id="qr-code-section" style="display:none;">
-            <h3>Scan to Pay</h3>
-            <img src="images/qrcode-placeholder.png" alt="QR Code" style="width:200px;height:200px;">
-        </section>
-
-        <section id="member-data-section" style="display:none;">
-            <div id="member-data"></div>
-
-            <h3>Record Contribution</h3>
-            <form id="contribution-form">
-                <input type="text" id="utr-number" placeholder="UTR Number" required>
-                <input type="date" id="transaction-date" required>
-                <input type="number" id="amount" placeholder="Amount" required>
-                <select id="payment-method">
-                    <option value="UPI">UPI</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                </select>
-                <button type="submit">Submit Contribution</button>
-                <p id="contribution-message" style="display:none;"></p>
-            </form>
-        </section>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
