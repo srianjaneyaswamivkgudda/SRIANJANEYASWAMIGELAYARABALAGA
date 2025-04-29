@@ -39,4 +39,33 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             }
         })
         .catch(error => console.error('Error fetching data:', error));
+    function onOpen() {
+    const ui = SpreadsheetApp.getUi();
+    ui.createMenu('UTR Entry')
+        .addItem('Enter UTR', 'showUtrDialog')
+        .addToUi();
+}
+
+function showUtrDialog() {
+    const html = HtmlService.createHtmlOutputFromFile('utrDialog')
+        .setWidth(300)
+        .setHeight(200);
+    SpreadsheetApp.getUi().showModalDialog(html, 'Enter UTR');
+}
+
+function submitUtr(utr) {
+    const url = 'https://example.com/api/submit-utr'; // Replace with actual URL
+    const options = {
+        method: 'post',
+        contentType: 'application/json',
+        payload: JSON.stringify({ utr: utr }),
+        headers: {
+            'Authorization': 'Bearer ' + getAccessToken() // Function to retrieve access token
+        }
+    };
+    
+    const response = UrlFetchApp.fetch(url, options);
+    return response.getContentText();
+}
+
 });
