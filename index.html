@@ -1,35 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sri Anjaneyaswami Gelayara Balaga</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Sri Anjaneyaswami Gelayara Balaga - Venukallugudda</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('IMG_20250407_201008[1].jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 20px;
+      margin: 100px auto;
+      width: 300px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <div class="background"></div>
-  <div class="login-container" id="login-section">
-    <h1>Sri Anjaneyaswami Gelayara Balaga - Venukallugudda</h1>
-    <form id="login-form">
-      <input type="text" id="username" placeholder="Username" required><br>
-      <input type="password" id="password" placeholder="Password" required><br>
-      <button type="submit">Login</button>
-    </form>
-    <p id="login-error" style="display:none; color: red;">Invalid username or password</p>
-  </div>
 
-  <div id="member-data-section" style="display:none;">
-    <div id="member-data"></div>
-    <form id="contribution-form">
-      <input type="text" id="utr-number" placeholder="UTR Number" required><br>
-      <input type="date" id="transaction-date" required><br>
-      <input type="number" id="amount" placeholder="Amount" required><br>
-      <input type="text" id="payment-method" placeholder="Payment Method"><br>
-      <button type="submit">Submit Transaction</button>
-    </form>
-    <p id="contribution-message" style="display:none;"></p>
-  </div>
+<div class="container">
+  <h2>Member Login</h2>
+  <input type="text" id="username" placeholder="Username" required>
+  <input type="text" id="utr" placeholder="UTR Number" required>
+  <input type="date" id="date" required>
+  <input type="number" id="amount" placeholder="Amount" required>
+  <input type="text" id="method" placeholder="Payment Method (e.g. UPI, Cash)" required>
+  <button onclick="submitTransaction()">Submit</button>
+  <p id="message"></p>
+</div>
 
-  <script src="script.js"></script>
+<script>
+  const webAppURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec"; // Replace with your deployed web app URL
+
+  function submitTransaction() {
+    const username = document.getElementById('username').value.trim();
+    const utr = document.getElementById('utr').value.trim();
+    const date = document.getElementById('date').value.trim();
+    const amount = document.getElementById('amount').value.trim();
+    const method = document.getElementById('method').value.trim();
+
+    if (!username || !utr || !date || !amount || !method) {
+      document.getElementById('message').innerText = "Please fill all fields.";
+      return;
+    }
+
+    const data = {
+      action: "recordTransaction",
+      "Username": username,
+      "UTR Number": utr,
+      "Transaction Date": date,
+      "Amount": amount,
+      "Payment Method": method
+    };
+
+    fetch(webAppURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById('message').innerText = result.message;
+      if (result.status === "success") {
+        document.querySelector('.container').reset;
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      document.getElementById('message').innerText = "Error submitting transaction.";
+    });
+  }
+</script>
+
 </body>
 </html>
