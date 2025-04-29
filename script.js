@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
     const paymentMethodInput = document.getElementById('payment-method');
 
-    const fetchDataURL = "https://script.google.com/macros/s/AKfycbxVs-WGLDb1Jrz9Mf6HiOgQivbdzbwQAfYf7sstXYHXze71QCEoLV7JRAuC0CHyk67ICw/exec"; // <-- replace with your actual URL
+    const fetchDataURL = "https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec"; // <-- replace with your actual URL
 
     let membersData = [];
     let loggedInMember = null;
