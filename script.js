@@ -5,7 +5,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const password = document.getElementById('password').value;
 
     // Fetch data from Google Sheets (replace with your published Google Sheets URL)
-    const sheetUrl = 'YOUR_GOOGLE_SHEET_URL'; // Replace with your actual Google Sheets URL
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbyBNxjlZGc8Kn4OBLHFVFi_HM4hr6oBbdU2odmFHzovtPcIPSHShmIOEngSfD2DwaeqYQ/exec'; // Replace with your actual Google Sheets URL
 
     fetch(sheetUrl)
         .then(response => response.json())
