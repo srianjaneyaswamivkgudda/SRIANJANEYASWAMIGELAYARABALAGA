@@ -1,82 +1,126 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Example background color */
+    color: #333;
 }
 
 .container {
-  width: 90%;
-  max-width: 500px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-h2 {
-  text-align: center;
-  color: #333;
+header {
+    background-color: #333;
+    color: white;
+    padding: 1em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0 20px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
+.main-nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.8em 1.5em;
+    display: block;
 }
 
-button:hover {
-  background-color: #218838;
+.main-nav ul li a:hover {
+    background-color: #555;
 }
 
-.status {
-  margin-top: 20px;
-  text-align: center;
-  font-weight: bold;
+.menu-button {
+    display: none; /* Hidden by default on larger screens */
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
+    padding: 0.5em;
 }
 
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+.hero {
+    background-image: url('your-background-image.jpg'); /* Replace with your image path */
+    background-size: cover;
+    color: white;
+    text-align: center;
+    padding: 100px 0;
 }
 
-.admin-table th,
-.admin-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
 }
 
-.admin-table th {
-  background-color: #f2f2f2;
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
 }
 
-.confirm-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.cta-button {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
-.confirm-btn:hover {
-  background-color: #0056b3;
+.cta-button:hover {
+    background-color: #4cae4c;
+}
+
+.updates-section {
+    padding: 30px 0;
+    text-align: center;
+}
+
+.updates-content {
+    margin-top: 20px;
+    /* You'll likely add more styling here */
+}
+
+footer {
+    text-align: center;
+    padding: 1em 0;
+    background-color: #333;
+    color: white;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Basic styling for mobile menu */
+@media (max-width: 768px) {
+    .main-nav {
+        display: none;
+        width: 100%;
+        background-color: #333;
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        left: 0;
+        z-index: 10;
+    }
+
+    .main-nav.open {
+        display: block;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-button {
+        display: block;
+    }
 }
