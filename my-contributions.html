@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Contributions</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .contributions-page {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contributions-page h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #contributionsList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #contributionsList li {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+
+        #contributionsList li strong {
+            font-weight: bold;
+        }
+
+        #contributionsStatus {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="contributions-page">
+        <h2>My Contributions</h2>
+        <div id="contributionsStatus">Loading contributions...</div>
+        <ul id="contributionsList">
+            </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contributionsList = document.getElementById('contributionsList');
+            const contributionsStatus = document.getElementById('contributionsStatus');
+            const username = localStorage.getItem('username'); // Get username
+
+            if (!username) {
+                contributionsStatus.innerText = "Please log in to view your contributions.";
+                return;
+            }
+
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+
+            fetch(scriptURL + '?action=getContributions&username=' + encodeURIComponent(username)) {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success' && data.contributions && data.contributions.length > 0) {
+                    contributionsStatus.innerText = "";
+                    data.contributions.forEach(contribution => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <strong>Date:</strong> ${contribution.timestamp}<br>
+                            <strong>Amount:</strong> ${contribution.amount}<br>
+                            <strong>UTR:</strong> ${contribution.utr}<br>
+                            <strong>Status:</strong> ${contribution.status}
+                        `;
+                        contributionsList.appendChild(listItem);
+                    });
+                } else if (data.status === 'success' && (!data.contributions || data.contributions.length === 0)) {
+                    contributionsStatus.innerText = "No contributions found for this user.";
+                } else {
+                    contributionsStatus.innerText = "Failed to load contributions.";
+                    console.error("Error loading contributions:", data.message);
+                }
+            })
+            .catch(error => {
+                contributionsStatus.innerText = "An error occurred while loading contributions.";
+                console.error("Fetch error:", error);
+            });
+        });
+    </script>
+</body>
+</html>
