@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ... (same register page CSS as provided in the previous response) ... */
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+        <div id="registrationStatus"></div>
+        <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const formDataObject = Object.fromEntries(formData.entries());
+
+            if (formDataObject.newPassword !== formDataObject.confirmPassword) {
+                document.getElementById('registrationStatus').innerText = "Passwords do not match.";
+                return;
+            }
+
+            document.getElementById('registrationStatus').innerText = "Registering...";
+
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL'; // Same URL as before
+
+            fetch(scriptURL + '?action=register', { // Add an action parameter
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formDataObject),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('registrationStatus').innerText = data.message;
+                if (data.status === 'success') {
+                    window.location.href = 'login.html'; // Redirect to login after registration
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('registrationStatus').innerText = 'Registration failed. Please try again.';
+            });
+        });
+    </script>
+</body>
+</html>
