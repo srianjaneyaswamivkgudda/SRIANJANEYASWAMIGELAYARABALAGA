@@ -62,9 +62,10 @@
                 return;
             }
 
-            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+            // Replace with your actual Google Apps Script Web App URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxNR2_FR2JvDp_wq-z5YQqJ2mwjnvsANnIA-6i989oruvyouK4WZWmzvt45mDMNll8qjw/exec';
 
-            fetch(scriptURL + '?action=getContributions&username=' + encodeURIComponent(username)) {
+            fetch(scriptURL + '?action=getContributions&username=' + encodeURIComponent(username), {
                 method: 'GET',
             })
             .then(response => response.json())
@@ -84,8 +85,8 @@
                 } else if (data.status === 'success' && (!data.contributions || data.contributions.length === 0)) {
                     contributionsStatus.innerText = "No contributions found for this user.";
                 } else {
-                    contributionsStatus.innerText = "Failed to load contributions.";
-                    console.error("Error loading contributions:", data.message);
+                    contributionsStatus.innerText = data.message || "Failed to load contributions.";
+                    console.error("Error loading contributions:", data);
                 }
             })
             .catch(error => {
