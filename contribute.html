@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contribute</title>
+</head>
+<body>
+  <h2>Make Contribution</h2>
+  <input type="text" id="name" placeholder="Your Name"><br><br>
+  <input type="text" id="phone" placeholder="Phone Number"><br><br>
+  <input type="password" id="password" placeholder="Password"><br><br>
+  <input type="number" id="amount" placeholder="Amount"><br><br>
+  <input type="text" id="screenshot" placeholder="Screenshot URL (optional)"><br><br>
+  <button onclick="submitContribution()">Submit</button>
+
+  <p id="result"></p>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxOz3EeadsIDmm3tBtWtCA3PYmli8s3hMkQKEs5YcLW97u9fZ8oTuz4O8AhUGOwhECY2w/exec";
+
+    function submitContribution() {
+      const data = {
+        action: "addContribution",
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        password: document.getElementById('password').value,
+        amount: document.getElementById('amount').value,
+        screenshotURL: document.getElementById('screenshot').value
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('result').innerText = data.message;
+      });
+    }
+  </script>
+</body>
+</html>
