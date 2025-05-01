@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Group Contribution Portal</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Contributions</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="contribute.html">Contribute</a></li>
+                    <li><a href="updates.html">Updates</a></li>
+                    <li><a href="my-contributions.html">My Contributions</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+            <div class="menu-button">☰</div>
+        </header>
 
-  <div class="container">
-    <h2>Welcome to Our Group Portal</h2>
+        <section class="hero">
+            <h1>Support Our Community</h1>
+            <p>Join us in making a difference through collective contributions.</p>
+            <a href="contribute.html" class="cta-button">Contribute Now</a>
+        </section>
 
-    <button onclick="window.location.href='login.html'">Login / Register</button>
-    <br><br>
-    <button onclick="window.location.href='contribute.html'">Make a Contribution</button>
-    <br><br>
-    <button onclick="window.location.href='admin.html'">Admin Panel</button>
+        <section class="updates-section">
+            <h2>Recent Updates</h2>
+            <div class="updates-content">
+                <p>Update 1: ...</p>
+                <p>Update 2: ...</p>
+                <p>Update 3: ...</p>
+            </div>
+        </section>
 
-  </div>
+        <footer>
+            <p>&copy; 2025 Community Contributions</p>
+        </footer>
+    </div>
 
+    <script>
+        const menuButton = document.querySelector('.menu-button');
+        const mainNav = document.querySelector('.main-nav');
+
+        menuButton.addEventListener('click', () => {
+            mainNav.classList.toggle('open');
+        });
+
+        // In a real application, you would dynamically fetch and display updates here
+    </script>
 </body>
 </html>
