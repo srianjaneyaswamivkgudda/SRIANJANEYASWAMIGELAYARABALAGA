@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <input type="text" id="phone" placeholder="Phone Number"><br><br>
+  <input type="password" id="password" placeholder="Password"><br><br>
+  <button onclick="login()">Login</button>
+
+  <p id="result"></p>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxOz3EeadsIDmm3tBtWtCA3PYmli8s3hMkQKEs5YcLW97u9fZ8oTuz4O8AhUGOwhECY2w/exec";
+
+    function login() {
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify({ action: "login", phone: phone, password: password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('result').innerText = "Welcome, " + data.name;
+          // Redirect to contribution page
+          window.location.href = "contribute.html?phone=" + phone;
+        } else {
+          document.getElementById('result').innerText = data.message;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
