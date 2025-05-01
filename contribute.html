@@ -1,42 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Contribute</title>
-   <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ... (same contribute page CSS as provided in the previous response) ... */
+    </style>
 </head>
 <body>
-  <h2>Make Contribution</h2>
-  <input type="text" id="name" placeholder="Your Name"><br><br>
-  <input type="text" id="phone" placeholder="Phone Number"><br><br>
-  <input type="password" id="password" placeholder="Password"><br><br>
-  <input type="number" id="amount" placeholder="Amount"><br><br>
-  <input type="text" id="screenshot" placeholder="Screenshot URL (optional)"><br><br>
-  <button onclick="submitContribution()">Submit</button>
+    <div class="contribute-container">
+        <h2>Make a Contribution</h2>
+        <form id="contributionForm">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Contribution Amount:</label>
+                <input type="number" id="amount" name="amount" required min="1">
+            </div>
+            <div class="form-group">
+                <label for="utr">UTR Number (Transaction ID):</label>
+                <input type="text" id="utr" name="utr" required>
+                <small>Please enter the transaction reference number.</small>
+            </div>
+            <button type="submit">Submit Contribution</button>
+        </form>
+        <div id="contributionStatus"></div>
+    </div>
 
-  <p id="result"></p>
+    <script>
+        document.getElementById('contributionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const formDataObject = Object.fromEntries(formData.entries());
+            const username = localStorage.getItem('username'); // Get username if logged in
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxOz3EeadsIDmm3tBtWtCA3PYmli8s3hMkQKEs5YcLW97u9fZ8oTuz4O8AhUGOwhECY2w/exec";
+            if (username) {
+                formDataObject.username = username; // Include username in the data
+            } else {
+                alert("Please log in to submit a contribution.");
+                return;
+            }
 
-    function submitContribution() {
-      const data = {
-        action: "addContribution",
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        password: document.getElementById('password').value,
-        amount: document.getElementById('amount').value,
-        screenshotURL: document.getElementById('screenshot').value
-      };
+            document.getElementById('contributionStatus').innerText = "Submitting your contribution...";
 
-      fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('result').innerText = data.message;
-      });
-    }
-  </script>
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+
+            fetch(scriptURL + '?action=contribute', { // Add an action parameter
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formDataObject),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('contributionStatus').innerText = data.message;
+                if (data.status === 'success') {
+                    document.getElementById('contributionForm').reset();
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('contributionStatus').innerText = 'An error occurred. Please try again later.';
+            });
+        });
+    </script>
 </body>
 </html>
