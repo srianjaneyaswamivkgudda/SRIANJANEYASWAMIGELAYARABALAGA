@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+</head>
+<body>
+  <h2>Admin Panel</h2>
+  <button onclick="loadContributions()">Load Contributions</button>
+  <div id="list"></div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyzQY0QTFPKFQIlKFmfkj7nr_W6xtN3EngOWdKYLNx-QgJ1IwRUNGalqQACW14iw6Ew7A/exec";
+
+    function loadContributions() {
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify({ action: "getAllContributions" })
+      })
+      .then(res => res.json())
+      .then(data => {
+        let html = "<table border='1'><tr><th>Name</th><th>Phone</th><th>Amount</th><th>Status</th><th>Action</th></tr>";
+        data.forEach(item => {
+          html += `<tr>
+            <td>${item.name}</td>
+            <td>${item.phone}</td>
+            <td>${item.amount}</td>
+            <td>${item.status}</td>
+            <td><button onclick="confirm('${item.phone}')">Confirm</button></td>
+          </tr>`;
+        });
+        html += "</table>";
+        document.getElementById('list').innerHTML = html;
+      });
+    }
+
+    function confirm(phone) {
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify({ action: "confirmContribution", phone: phone })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        loadContributions(); // Refresh table
+      });
+    }
+  </script>
+</body>
+</html>
