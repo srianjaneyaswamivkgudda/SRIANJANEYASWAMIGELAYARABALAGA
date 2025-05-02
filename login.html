@@ -7,32 +7,40 @@
     <style>
         body {
             font-family: sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f4f4f4;
+            margin: 0;
         }
+
         .container {
             background-color: #fff;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
-        }
-        h2 {
             text-align: center;
-            margin-bottom: 20px;
-            color: #333;
         }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
         .form-group {
             margin-bottom: 15px;
+            text-align: left;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             color: #555;
+            font-size: 0.9em;
         }
+
         input[type="text"],
         input[type="password"] {
             width: 100%;
@@ -40,30 +48,35 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
+            font-size: 1em;
         }
+
         button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
+            background-color: #5cb85c;
             color: white;
+            padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1em;
+            width: 100%;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #4cae4c;
         }
+
         .link {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
+            margin-top: 20px;
+            font-size: 0.9em;
             color: #777;
         }
+
         .link a {
             color: #007bff;
             text-decoration: none;
         }
+
         .link a:hover {
             text-decoration: underline;
         }
@@ -89,33 +102,32 @@
     </div>
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
-            const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbzFeuCxZKcDS9Lcfw2HuJ51DIv-nrFxf7mvQ7IyCG3Ad5F4xEWb0XnN3Fn2PGnLvUCB/exec'; // <--- PASTE YOUR LOGIN APPS SCRIPT URL HERE
-            const homePageUrl = 'home.html';                       // <--- LINK TO home.html
+            const appsScriptUrl = 'https://script.google.com/macros/s/AKfycbzFeuCxZKcDS9Lcfw2HuJ51DIv-nrFxf7mvQ7IyCG3Ad5F4xEWb0XnN3Fn2PGnLvUCB/exec'; // <--- MAKE SURE THIS IS YOUR WEB APP URL
+            const homePageUrl = 'home.html';
 
             fetch(appsScriptUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // Using URL-encoded data
+              },
+              body: `action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log('Response from Apps Script:', data);
-                if (data.trim() === 'Login successful') { // Adjust this based on your Apps Script response
-                    window.location.href = homePageUrl; // Redirect to home.html
-                } else {
-                    alert(data); // Show the error message from Apps Script
-                }
+              console.log('Response from Apps Script:', data);
+              if (data.result === 'success') {
+                window.location.href = homePageUrl;
+              } else {
+                alert(data.message || 'Login failed.');
+              }
             })
             .catch(error => {
-                console.error('Error sending data to Apps Script:', error);
-                alert('An error occurred during login.');
+              console.error('Error sending data to Apps Script:', error);
+              alert('An error occurred during login.');
             });
         });
     </script>
