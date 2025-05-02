@@ -26,92 +26,16 @@
   <body class="bg-light">
     <div class="container">
       <div class="form-container">
-        <h4 class="text-center mb-4">ಶ್ರೀ ಆಂಜನೇಯಸ್ವಾಮಿ ಗೆಳಯರ ಬಳಗ</h4>
-        <h5 class="text-right mb-4">ವೇಣುಕಲ್ಲುಗುಡ್ಡ</h5>
+        <h4 class="text-center mb-4">Form Submission to Google Sheet</h4>
         <form id="submit-to-google-sheet">
           <div class="form-group">
-            <label for="Password">Password:</label>
-            <input
-              class="form-control"
-              type="password"
-              name="Password"
-              id="Password"
-              placeholder="Password"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="Username">Username:</label>
+            <label for="name">Name:</label>
             <input
               class="form-control"
               type="text"
-              name="Username"
-              id="Username"
-              placeholder="Username"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="Name">Name:</label>
-            <input
-              class="form-control"
-              type="text"
-              name="Name"
-              id="Name"
+              name="name"
+              id="name"
               placeholder="Name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="Amount">Amount:</label>
-            <input
-              class="form-control"
-              type="number"
-              name="Amount"
-              id="Amount"
-              placeholder="Amount"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="UTR Number">UTR Number:</label>
-            <input
-              class="form-control"
-              type="text"
-              name="UTR Number"
-              id="UTR Number"
-              placeholder="UTR Number"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="Contact number">Contact number:</label>
-            <input
-              class="form-control"
-              type="text"
-              name="Contact number"
-              id="Contact number"
-              placeholder="Contact number"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="Status">Status:</label>
-            <select class="form-control" name="Status" id="Status" required>
-              <option value="" disabled selected hidden>Choose...</option>
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="Screenshot URL">Screenshot URL:</label>
-            <input
-              class="form-control"
-              type="url"
-              name="Screenshot URL"
-              id="Screenshot URL"
-              placeholder="Screenshot URL"
               required
             />
           </div>
@@ -126,7 +50,55 @@
               required
             />
           </div>
+          <div class="form-group">
+            <label for="slip">Contact Number:</label>
+            <input
+              class="form-control"
+              type="text"
+              name="contact_number"
+              id="contact_number"
+              placeholder="Contact Number"
+              required
+            />
+          </div>
 
+          <div class="form-group">
+            <label for="loc">Gender:</label>
+            <select class="form-control" name="gender" id="gender" required>
+              <option value="" disabled selected hidden>Choose...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="loc">Message:</label>
+            <textarea
+              class="form-control"
+              name="message"
+              id="message"
+              placeholder="Message"
+              required
+            ></textarea>
+
+            <div class="form-group mt-2">
+                <label for="media" class="form-check-label">Upload profile picture :</label>
+                <input class="form-control-file" type="file" name="media" id="media" />
+            </div>
+
+          <div class="form-group form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="age" />
+            <label class="form-check-label" for="age"
+              >Check if you are over 18 years old</label
+            >
+          </div>
+          
+          <div class="form-group form-check">
+            <input class="form-check-input" type="checkbox" id="ex" required />
+            <label class="form-check-label" for="ex"
+              >By checking this box I certify that I am agree with the data
+              terms and policies.
+            </label>
+          </div>
           <button type="submit" class="btn btn-primary btn-block">
             Submit
           </button>
@@ -135,27 +107,75 @@
     </div>
 
     <script>
-      const scriptURL ="https://script.google.com/macros/s/AKfycbxOz3EeadsIDmm3tBtWtCA3PYmli8s3hMkQKEs5YcLW97u9fZ8oTuz4O8AhUGOwhECY2w/exec";
-      const form = document.forms["submit-to-google-sheet"];
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        var formData = new FormData(form);
-        fetch(scriptURL, {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: new URLSearchParams(formData).toString()
-        })
-          .then((response) => {
-            swal("Done", "Submitted Successfully.", "success");
-            form.reset();
-          })
-          .catch((error) => {
-            swal("Error", "Something went wrong. please try again!", "error");
-            console.error("Error!", error.message);
-          });
-      });
+        const scriptURL =                       
+        "https://script.google.com/macros/s/AKfycbyljVhoNgI8pQtKniw3Sx1RCQCBif045_WiG50T_CC9bLhAqXgiJFi1T7TVOYmWLqeFWQ/exec";
+        const form = document.forms["submit-to-google-sheet"];
+        const fileInput = document.getElementById("media");
+
+        form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                var ex = document.getElementById("ex").checked;
+                var age = document.getElementById("age").checked;
+               
+                if (age) {
+                    formData.append("age", "Yes");
+                } else {
+                    formData.append("age", "No");
+                }
+
+                if (ex) {
+                    formData.append("ex", "Yes");
+                } else {
+                    formData.append("ex", "No");
+                }
+
+                // Handle the file upload
+                const fileInput = document.getElementById("media");
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+
+                    // Size validation here, only less than 2MB allowed
+                    if (file.size > 1024 * 1024 * 2) {
+                        swal("Error", "File size should be less than 2MB.", "error");
+                        return;
+                    }
+
+                    reader.onload = async function () {
+                        formData.append("media", reader.result.split(",")[1]); // Append base64 data
+                        await submitForm(formData);
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    // No file uploaded
+                    await submitForm(formData);
+                }
+                });
+
+        async function submitForm(formData) {
+            // Get the submit button and change its text to "Loading..."
+            const submitButton = document.querySelector("button[type='submit']");
+            submitButton.disabled = true;
+            submitButton.innerText = "Loading...";
+
+            // Submit the form data to the Google Sheet
+            fetch(scriptURL, { method: "POST", body: formData })
+                .then((response) => {
+                    swal("Done", "Submitted Successfully.", "success");
+                    form.reset();
+                })
+                .catch((error) => {
+                    swal("Error", "Something went wrong. Please try again!", "error");
+                })
+                .finally(() => {
+                    // Reset the submit button back to "Submit"
+                    submitButton.disabled = false;
+                    submitButton.innerText = "Submit";
+                });
+        }
+
     </script>
   </body>
 </html>
