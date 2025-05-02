@@ -30,35 +30,13 @@
         <h5 class="text-right mb-4">ವೇಣುಕಲ್ಲುಗುಡ್ಡ</h5>
         <form id="submit-to-google-sheet">
           <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="Password">Password:</label>
             <input
               class="form-control"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input
-              class="form-control"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="contact_number">Contact Number:</label>
-            <input
-              class="form-control"
-              type="text"
-              name="contact_number"
-              id="contact_number"
-              placeholder="Contact Number"
+              type="password"
+              name="Password"
+              id="Password"
+              placeholder="Password"
               required
             />
           </div>
@@ -73,37 +51,82 @@
               required
             />
           </div>
-
           <div class="form-group">
-            <label for="gender">Gender:</label>
-            <select class="form-control" name="gender" id="gender" required>
+            <label for="Name">Name:</label>
+            <input
+              class="form-control"
+              type="text"
+              name="Name"
+              id="Name"
+              placeholder="Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="Amount">Amount:</label>
+            <input
+              class="form-control"
+              type="number"
+              name="Amount"
+              id="Amount"
+              placeholder="Amount"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="UTR Number">UTR Number:</label>
+            <input
+              class="form-control"
+              type="text"
+              name="UTR Number"
+              id="UTR Number"
+              placeholder="UTR Number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="Contact number">Contact number:</label>
+            <input
+              class="form-control"
+              type="text"
+              name="Contact number"
+              id="Contact number"
+              placeholder="Contact number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="Status">Status:</label>
+            <select class="form-control" name="Status" id="Status" required>
               <option value="" disabled selected hidden>Choose...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="message">Message:</label>
-            <textarea
+            <label for="Screenshot URL">Screenshot URL:</label>
+            <input
               class="form-control"
-              name="message"
-              id="message"
-              placeholder="Message"
+              type="url"
+              name="Screenshot URL"
+              id="Screenshot URL"
+              placeholder="Screenshot URL"
               required
-            ></textarea>
+            />
           </div>
-          <div class="form-group form-check mt-2">
-            <input class="form-check-input" type="checkbox" id="age" name="age_check" />
-            <label class="form-check-label" for="age">
-              Check if you are over 18 years old</label>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input
+              class="form-control"
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              required
+            />
           </div>
-          <div class="form-group form-check">
-            <input class="form-check-input" type="checkbox" id="ex" name="terms_agree" required />
-            <label class="form-check-label" for="ex">
-              By checking this box I certify that I agree with the data
-              terms and policies.
-            </label>
-          </div>
+
           <button type="submit" class="btn btn-primary btn-block">
             Submit
           </button>
@@ -118,18 +141,14 @@
         e.preventDefault();
         var formData = new FormData(form);
 
-        // Append checkbox values based on their checked state
-        formData.set("age", document.getElementById("age").checked ? "Yes" : "No");
-        formData.set("terms_agree", document.getElementById("ex").checked ? "Yes" : "No");
-
         fetch(scriptURL, { method: "POST", body: formData })
           .then((response) => {
             swal("Done", "Submitted Successfully.", "success");
-            form.reset(); // Optionally reset the form after successful submission
+            form.reset();
           })
           .catch((error) => {
             swal("Error", "Something went wrong. please try again!", "error");
-            console.error("Error!", error.message); // Log the error for debugging
+            console.error("Error!", error.message);
           });
       });
     </script>
