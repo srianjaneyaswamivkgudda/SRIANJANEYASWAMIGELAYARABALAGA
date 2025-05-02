@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            flex: 1; /* Takes up the remaining space */
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .menu-slide {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Stay in place */
+            top: 0;
+            right: 0;
+            height: 100%;
+            transform: translateX(100%); /* Initially hidden */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-slide.open {
+            transform: translateX(0); /* Slide in when open class is added */
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 10; /* Ensure it's above the menu */
+        }
+
+        .menu-slide ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .menu-slide ul li {
+            margin-bottom: 10px;
+        }
+
+        .menu-slide ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px 0;
+        }
+
+        .menu-slide ul li a:hover {
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle">Menu</button>
+    <div class="container">
+        <h2>Admin Updates</h2>
+        <p>This section will be updated by the admin.</p>
+    </div>
+    <div class="menu-slide">
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="#">Scanner</a></li>
+            <li><a href="#">Payment Confirmation</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuSlide = document.querySelector('.menu-slide');
+
+        menuToggle.addEventListener('click', () => {
+            menuSlide.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
