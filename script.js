@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginError = document.getElementById('login-error');
     const contributionForm = document.getElementById('contribution-form');
     const contributionMessage = document.getElementById('contribution-message');
+    const transactionDateInput = document.getElementById('transaction-date'); // Get the date input
+    const amountInput = document.getElementById('amount');             // Get the amount input
+    const paymentMethodInput = document.getElementById('payment-method');   // Get the payment method input
 
     // ********************************************************************
     // IMPORTANT: REPLACE THIS WITH YOUR ACTUAL WEB APP URL FROM APPS SCRIPT
@@ -75,38 +78,59 @@ document.addEventListener('DOMContentLoaded', function() {
     contributionForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const utrNumberInput = document.getElementById('utr-number').value.trim();
+        const transactionDateValue = transactionDateInput.value;
+        const amountValue = amountInput.value;
+        const paymentMethodValue = paymentMethodInput.value;
 
-        if (utrNumberInput === "12" && loggedInMember && loggedInMember.Username) { // Check if logged in *and* UTR is "12" for testing
-            const recordUTRURL = fetchDataURL + "?action=recordUTR&username=" + encodeURIComponent(loggedInMember.Username) + "&utr=" + encodeURIComponent(utrNumberInput);
+        // More realistic client-side UTR validation (example: 12 to 22 alphanumeric)
+        const utrPattern = /^[a-zA-Z0-9]{12,22}$/;
 
-            fetch(recordUTRURL)
+        if (utrPattern.test(utrNumberInput) && transactionDateValue && amountValue && loggedInMember && loggedInMember.Username) {
+            const recordTransactionURL = fetchDataURL + "?action=recordTransaction" +
+                                         "&username=" + encodeURIComponent(loggedInMember.Username) +
+                                         "&utr=" + encodeURIComponent(utrNumberInput) +
+                                         "&date=" + encodeURIComponent(transactionDateValue) +
+                                         "&amount=" + encodeURIComponent(amountValue) +
+                                         "&method=" + encodeURIComponent(paymentMethodValue);
+
+            fetch(recordTransactionURL)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
-                        contributionMessage.textContent = "UTR recorded successfully.";
+                        contributionMessage.textContent = "Transaction recorded successfully.";
                         contributionMessage.style.display = 'block';
                         contributionMessage.style.color = 'green';
                         contributionForm.reset();
-                        console.log("UTR recorded for:", loggedInMember.Username, "UTR:", utrNumberInput);
-                        // Optionally, you might want to refresh the member data
-                        // fetchSheetData();
+                        console.log("Transaction recorded for:", loggedInMember.Username, "UTR:", utrNumberInput);
                     } else {
-                        contributionMessage.textContent = "Failed to record UTR: " + data.message;
+                        contributionMessage.textContent = "Failed to record transaction: " + data.message;
                         contributionMessage.style.display = 'block';
                         contributionMessage.style.color = 'red';
-                        console.error("Failed to record UTR:", data);
+                        console.error("Failed to record transaction:", data);
                     }
                 })
                 .catch(error => {
                     contributionMessage.textContent = "Error communicating with server.";
                     contributionMessage.style.display = 'block';
                     contributionMessage.style.color = 'red';
-                    console.error("Error sending UTR:", error);
+                    console.error("Error sending transaction data:", error);
                 });
         } else {
-            contributionMessage.textContent = loggedInMember ? "Invalid UTR number (must be '12' for this test)." : "Please log in to record UTR.";
+            let errorMessage = "Please fill in all required transaction details.";
+            if (loggedInMember) {
+                if (!utrPattern.test(utrNumberInput)) {
+                    errorMessage = "Invalid UTR number format (must be 12-22 alphanumeric characters).";
+                } else if (!transactionDateValue) {
+                    errorMessage = "Please enter the transaction date.";
+                } else if (!amountValue) {
+                    errorMessage = "Please enter the transaction amount.";
+                }
+            } else {
+                errorMessage = "Please log in to record transaction.";
+            }
+            contributionMessage.textContent = errorMessage;
             contributionMessage.style.display = 'block';
-            contributionMessage.style.color = loggedInMember ? 'red' : 'orange';
+            contributionMessage.style.color = 'red';
         }
     });
 
