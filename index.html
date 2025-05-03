@@ -39,9 +39,8 @@
             <p class="text-gray-500 text-sm">© 2024 SRI ANJANEYASWAMY GELAYARA BALAGA, Venukallugudda. All rights reserved.</p>
         </footer>
     </div>
-
     <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqLjT_B99OAMPze3ypfCyG9xRKjex9MTGwRU4vXRyPZWYsl4aGzXI1hnJPZsSOgvmG/exec'; // Replace with your actual Script URL
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqLjT_B99OAMPze3ypfCyG9xRKjex9MTGwRU4vXRyPZWYsl4aGzXI1hnJPZsSOgvmG/exec'; // <-----------------  IMPORTANT:  Replace this!
 
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
@@ -67,19 +66,31 @@ loginForm.addEventListener('submit', (event) => {
 
 function fetchMemberDetails(username, password) {
     const url = `${SCRIPT_URL}?action=login&username=${username}&password=${password}`;
+    // 8.  Log the URL to the console to verify it's correct.
+    console.log('Fetching from URL:', url);
+
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            // 9.  Check the response status.  Important for debugging.
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            // 10. Log the data received from the server.
+            console.log('Received data:', data);
             if (data.error) {
                 displayLoginError(data.error);
             } else {
                 // Redirect to dashboard.  Replace this with your actual dashboard URL.
-                window.location.href = 'home.html'; //  Redirect
+                window.location.href = 'dashboard.html'; //  Redirect
             }
         })
         .catch(error => {
+            // 11.  Log the error to the console.
             console.error('Error fetching member details:', error);
-            displayLoginError('Failed to connect to server. Please try again later.');
+            displayLoginError('Failed to connect to server. Please try again later.  Error: ' + error.message); // Include the error message
         });
 }
     </script>
