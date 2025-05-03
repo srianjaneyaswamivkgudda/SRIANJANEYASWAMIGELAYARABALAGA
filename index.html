@@ -1,81 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="password"],
-    button {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #5cb85c;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #4cae4c;
-    }
-    .message {
-      margin-top: 10px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .success { color: green; }
-    .error { color: red; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Anjaneyaswamy Gelayara Balaga</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <button type="submit">Login</button>
-      <div id="message" class="message"></div>
-    </form>
-  </div>
+    <header>
+        <h1>SRI ANJANEYASWAMY GELAYARA BALAGA</h1>
+        <p class="village-name">venukallugudda</p>
+    </header>
 
-  <script src="login_script.js"></script>
+    <main>
+        <section id="login-section">
+            <h2>Member Login</h2>
+            <form id="login-form">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+                <p id="login-error" class="error-message" style="display:none;">Invalid credentials.</p>
+            </form>
+        </section>
+
+        <section id="qr-code-section" style="display:none;">
+            <h2>Payment QR Code</h2>
+            <img id="qr-code-image" src="your_qr_code.png" alt="Payment QR Code">
+        </section>
+
+        <section id="member-data-section" style="display:none;">
+            <h2>Member Information</h2>
+            <div id="member-data">
+                </div>
+            <section id="contribution-section">
+                <h3>Record Contribution</h3>
+                <form id="contribution-form">
+                    <div>
+                        <label for="utr-number">UTR Number:</label>
+                        <input type="text" id="utr-number" name="utr-number" required>
+                    </div>
+                    <button type="submit">Submit UTR</button>
+                    <p id="contribution-message" style="display:none; color: green; margin-top: 10px;"></p>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SRI ANJANEYASWAMY GELAYARA BALAGA</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
