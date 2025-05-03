@@ -1,98 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRI ANJANEYASWAMY GELAYARA BALAGA - Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"],
+    button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4cae4c;
+    }
+    .message {
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white rounded-md shadow-lg p-8 w-full max-w-md">
-        <header class="text-center mb-6">
-            <h1 class="text-2xl font-semibold text-red-600">SRI ANJANEYASWAMY GELAYARA BALAGA</h1>
-            <p class="text-lg text-gray-700">Venukallugudda</p>
-        </header>
-        <main>
-            <div id="login-section" class="rounded-md">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Login</h2>
-                <form id="login-form" class="space-y-4">
-                    <div>
-                        <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username:</label>
-                        <input type="text" id="username" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                    </div>
-                    <div>
-                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
-                        <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                    </div>
-                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">Login</button>
-                </form>
-                <div id="login-error" class="text-red-500 text-xs italic mt-4 text-center" style="display: none;"></div>
-            </div>
-        </main>
-        <footer class="text-center mt-6">
-            <p class="text-gray-500 text-sm">© 2024 SRI ANJANEYASWAMY GELAYARA BALAGA, Venukallugudda. All rights reserved.</p>
-        </footer>
-    </div>
-    <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqLjT_B99OAMPze3ypfCyG9xRKjex9MTGwRU4vXRyPZWYsl4aGzXI1hnJPZsSOgvmG/exec'; // <-----------------  IMPORTANT:  Replace this!
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+      <div id="message" class="message"></div>
+    </form>
+  </div>
 
-const loginForm = document.getElementById('login-form');
-const loginError = document.getElementById('login-error');
-
-
-function displayLoginError(message) {
-    loginError.textContent = message;
-    loginError.style.display = 'block';
-}
-
-function hideLoginError() {
-    loginError.style.display = 'none';
-}
-
-
-loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const username = event.target.username.value;
-    const password = event.target.password.value;
-    fetchMemberDetails(username, password);
-});
-
-
-function fetchMemberDetails(username, password) {
-    const url = `${SCRIPT_URL}?action=login&username=${username}&password=${password}`;
-    // 8.  Log the URL to the console to verify it's correct.
-    console.log('Fetching from URL:', url);
-
-    fetch(url)
-        .then(response => {
-            // 9.  Check the response status.  Important for debugging.
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}, text: ${await response.text()}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 10. Log the data received from the server.
-            console.log('Received data:', data);
-            if (data.error) {
-                displayLoginError(data.error);
-            } else {
-                // Redirect to dashboard.  Replace this with your actual dashboard URL.
-                window.location.href = 'home.html'; //  Redirect
-            }
-        })
-        .catch(error => {
-            // 11.  Log the error to the console.
-            console.error('Error fetching member details:', error);
-            displayLoginError('Failed to connect to server. Please try again later.  Error: ' + error.message); // Include the error message
-        });
-}
-    </script>
+  <script src="login_script.js"></script>
 </body>
 </html>
