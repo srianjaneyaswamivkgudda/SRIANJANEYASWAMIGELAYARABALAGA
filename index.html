@@ -73,7 +73,7 @@ function fetchMemberDetails(username, password) {
         .then(response => {
             // 9.  Check the response status.  Important for debugging.
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}, text: ${await response.text()}`);
             }
             return response.json();
         })
