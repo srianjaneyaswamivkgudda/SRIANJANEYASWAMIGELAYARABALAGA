@@ -3,59 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sri Anjaneyaswamy Gelayara Balaga</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            flex: 1; /* Takes up the remaining space */
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+
+        .menu-slide {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Stay in place */
+            top: 0;
+            right: 0;
+            height: 100%;
+            transform: translateX(100%); /* Initially hidden */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-slide.open {
+            transform: translateX(0); /* Slide in when open class is added */
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 10; /* Ensure it's above the menu */
+        }
+
+        .menu-slide ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .menu-slide ul li {
+            margin-bottom: 10px;
+        }
+
+        .menu-slide ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px 0;
+        }
+
+        .menu-slide ul li a:hover {
+            color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>SRI ANJANEYASWAMY GELAYARA BALAGA</h1>
-        <p class="village-name">venukallugudda</p>
-    </header>
+    <button class="menu-toggle">Menu</button>
+    <div class="container">
+        <h2>Admin Updates</h2>
+        <p>This section will be updated by the admin.</p>
+    </div>
+    <div class="menu-slide">
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="#">Scanner</a></li>
+            <li><a href="#">Payment Confirmation</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
+    </div>
 
-    <main>
-        <section id="login-section">
-            <h2>Member Login</h2>
-            <form id="login-form">
-                <div>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit">Login</button>
-                <p id="login-error" class="error-message" style="display:none;">Invalid credentials.</p>
-            </form>
-        </section>
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menuSlide = document.querySelector('.menu-slide');
 
-        <section id="qr-code-section" style="display:none;">
-            <h2>Payment QR Code</h2>
-            <img id="qr-code-image" src="WhatsApp Image 2025-04-29 at 8.50.28 AM.jpeg" alt="Payment QR Code">
-        </section>
-
-        <section id="member-data-section" style="display:none;">
-            <h2>Member Information</h2>
-            <div id="member-data">
-                </div>
-            <section id="contribution-section">
-                <h3>Record Contribution</h3>
-                <form id="contribution-form">
-                    <div>
-                        <label for="utr-number">UTR Number:</label>
-                        <input type="text" id="utr-number" name="utr-number" required>
-                    </div>
-                    <button type="submit">Submit UTR</button>
-                    <p id="contribution-message" style="display:none; color: green; margin-top: 10px;"></p>
-                </form>
-            </section>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 SRI ANJANEYASWAMY GELAYARA BALAGA</p>
-    </footer>
-
-    <script src="script.js"></script>
+        menuToggle.addEventListener('click', () => {
+            menuSlide.classList.toggle('open');
+        });
+    </script>
 </body>
 </html>
