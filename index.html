@@ -1,64 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Login</title>
-    <style>
-        /* ... (rest of your CSS) ... */
-    </style>
+  <title>Login Page</title>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login with Google Sheets Credentials</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-            <div id="message"></div>
-        </form>
-    </div>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required><br><br>
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Login</button>
+  </form>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+  <p id="message"></p>
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageDiv = document.getElementById('message');
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
 
-            const gSheetsWebAppURL = 'https://script.google.com/macros/s/AKfycbxPghQnJMOtXbHxCN6YD7B2Z11t2D7vY8OonQXc0VRlgpgbJjV6J2MwzBkMTK6u9kL0Jw/exec'; // Replace with your actual URL
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-            fetch(gSheetsWebAppURL, {
-                method: 'POST', // Or 'GET' depending on how your web app is set up
-                headers: {
-                    'Content-Type': 'application/json' // Or 'application/x-www-form-urlencoded'
-                },
-                body: JSON.stringify({ username: username, password: password }) // If using POST and JSON
-                // If your web app expects URL-encoded data with GET or POST:
-                // body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
-            })
-            .then(response => response.json()) // Assuming your web app returns JSON
-            .then(data => {
-                if (data.success) {
-                    messageDiv.textContent = 'Login successful!';
-                    // Optionally redirect the user:
-                    // window.location.href = '/dashboard';
-                } else {
-                    messageDiv.textContent = data.message || 'Login failed.';
-                }
-            })
-            .catch(error => {
-                console.error('Error during login:', error);
-                messageDiv.textContent = 'An error occurred during login.';
-            });
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
+
+      try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxPghQnJMOtXbHxCN6YD7B2Z11t2D7vY8OonQXc0VRlgpgbJjV6J2MwzBkMTK6u9kL0Jw/exec', {
+          method: 'POST',
+          body: formData
         });
-    </script>
+
+        const result = await response.json();
+        document.getElementById('message').innerText = result.message;
+      } catch (error) {
+        document.getElementById('message').innerText = 'An error occurred.';
+        console.error('Error:', error);
+      }
+    });
+  </script>
 </body>
 </html>
