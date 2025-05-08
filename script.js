@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const nextPageButton = document.getElementById('next-page-button');
         nextPageButton.addEventListener('click', function() {
-            window.location.href ='home.html;
+            window.location.href ="home.html";
         });
     }
 
