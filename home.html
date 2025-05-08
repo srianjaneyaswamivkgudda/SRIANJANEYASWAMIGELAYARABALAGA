@@ -3,102 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Premium Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: sans-serif;
             margin: 0;
-            display: flex;
-            min-height: 100vh;
-            background-image:url('IMG_20250407_201008[1].jpg');
+            font-family: sans-serif;
+            background-image: url('your-background-image.jpg'); /* Replace with your image path */
             background-size: cover;
             background-position: center;
-            background-reapeat: no-repeat;
-            background-color: #f0f0f0;
+            color: white; /* Default text color for better visibility on background */
+            height: 100vh; /* Ensure full viewport height */
+            overflow: hidden; /* Prevent scrollbars if content overflows */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu {
+            background-color: rgba(0, 0, 0, 0.7); /* Slightly darker menu background */
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu a:hover {
+            opacity: 1;
+        }
+
+        .menu i {
+            font-size: 1.5em;
+            margin-bottom: 5px;
         }
 
         .container {
-            flex: 1; /* Takes up the remaining space */
+            background-color: rgba(0, 0, 0, 0.5); /* Adjust transparency as needed */
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin: 20px;
+            border-radius: 10px;
+            overflow-y: auto; /* Enable vertical scrolling for content within the transparent container */
+            flex-grow: 1; /* Allow container to take up remaining vertical space */
         }
 
-        .menu-slide {
-            width: 200px;
-            background-color: #333;
-            color: transparent;
-            padding: 20px;
-            box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
-            position: fixed; /* Stay in place */
-            top: 0;
-            right: 0;
-            height: 100%;
-            transform: translateX(100%); /* Initially hidden */
-            transition: transform 0.3s ease-in-out;
+        .premium-view {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
         }
 
-        .menu-slide.open {
-            transform: translateX(0); /* Slide in when open class is added */
+        .admin-updates {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
         }
 
-        .menu-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            z-index: 10; /* Ensure it's above the menu */
-        }
-
-        .menu-slide ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-
-        .menu-slide ul li {
-            margin-bottom: 10px;
-        }
-
-        .menu-slide ul li a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 8px 0;
-        }
-
-        .menu-slide ul li a:hover {
-            color: #f0f0f0;
+        h2 {
+            margin-top: 0;
         }
     </style>
 </head>
 <body>
-    <button class="menu-toggle">Menu</button>
-    <div class="container">
-        <h2>Admin Updates</h2>
-        <p>This section will be updated by the admin.</p>
+    <div class="menu">
+        <a href="#">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="#">
+            <i class="fas fa-qrcode"></i>
+            Scanner Code
+        </a>
+        <a href="paymentconfirmation.html">
+            <i class="fas fa-check-circle"></i>
+            Payment Confirmation
+        </a>
+        <a href="#">
+            <i class="fas fa-bullhorn"></i>
+            Admin Updates
+        </a>
+        <a href="#">
+            <i class="fas fa-user"></i>
+            Profile
+        </a>
+        <a href="#">
+            <i class="fas fa-cog"></i>
+            Settings
+        </a>
     </div>
-    <div class="menu-slide">
-        <h3>Menu</h3>
-        <ul>
-            <li><a href="WhatsApp Image 2025-04-29 at 8.50.28 AM.jpeg">Scanner</a></li>
-            <li><a href="paymentconfirmation.html">Payment Confirmation</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
+
+    <div class="container">
+        <section class="premium-view">
+            <h2>Premium Content</h2>
+            <p>Exclusive content for our premium members. Enjoy ad-free experience, early access to features, and special perks.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        </section>
+
+        <section class="admin-updates">
+            <h2>Admin Updates</h2>
+            <ul>
+                <li><i class="fas fa-info-circle"></i> New feature released: Enhanced search functionality.</li>
+                <li><i class="fas fa-wrench"></i> Maintenance scheduled for May 10th, 2025, between 2 AM and 4 AM IST.</li>
+                <li><i class="fas fa-user-plus"></i> Welcome our new premium members!</li>
+                <li><i class="fas fa-gift"></i> Special offer for the month of May: 20% off on all premium subscriptions.</li>
+                <li><i class="fas fa-bug"></i> Bug fixes implemented related to user profile editing.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Scanner Code Functionality (Placeholder)</h2>
+            <p>This section will eventually house the scanner code interface or information.</p>
+        </section>
+
+        <section>
+            <h2>Payment Confirmation (Placeholder)</h2>
+            <p>Here you will see the status of your recent payments and confirmation details.</p>
+        </section>
     </div>
 
     <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const menuSlide = document.querySelector('.menu-slide');
+        // You can add any dynamic JavaScript functionality here if needed
+        // For example, handling clicks on the menu items to navigate to different sections or pages.
+        const menuLinks = document.querySelectorAll('.menu a');
+        const container = document.querySelector('.container');
+        const premiumSection = document.querySelector('.premium-view');
+        const adminUpdatesSection = document.querySelector('.admin-updates');
 
-        menuToggle.addEventListener('click', () => {
-            menuSlide.classList.toggle('open');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                const text = this.textContent.trim();
+
+                if (text === 'Home') {
+                    container.scrollTop = 0; // Scroll to the top
+                } else if (text === 'Scanner Code') {
+                    // Implement scanner code functionality or navigate to a scanner page
+                    alert('Scanner Code functionality will be implemented here.');
+                } else if (text === 'Payment Confirmation') {
+                    // Implement payment confirmation display or navigate to payment history
+                    alert('Payment Confirmation details will be shown here.');
+                } else if (text === 'Admin Updates') {
+                    adminUpdatesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (text === 'Premium') { // If you revert to 'Premium' in the menu
+                    premiumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (text === 'Profile') {
+                    alert('Navigating to Profile page.');
+                    // window.location.href = '/profile.html'; // Example navigation
+                } else if (text === 'Settings') {
+                    alert('Navigating to Settings page.');
+                    // window.location.href = '/settings.html'; // Example navigation
+                }
+            });
         });
     </script>
 </body>
