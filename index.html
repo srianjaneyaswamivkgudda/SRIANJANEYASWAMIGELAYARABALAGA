@@ -50,24 +50,47 @@
   </div>
 
   <script>
-    function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
+// Example login button event handler
+document.getElementById('loginButton').addEventListener('click', function() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-      // Call Apps Script to validate (example only)
-      fetch('https://script.google.com/macros/s/AKfycbxwzEdLBUbBpYyKOHQp4iaeWiGnmIJcNvNjDxaHk8teW1o-U-gb75eWYmSgYl-PT5dQ/exec', {
-        method: 'POST',
-        body: JSON.stringify({ type: 'login', username: user, password: pass }),
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          window.location.href = `dashboard.html?user=${user}`;
-        } else {
-          document.getElementById('error').innerText = 'Invalid login';
-        }
-      });
+    // Check if username and password are entered
+    if (!username || !password) {
+        alert("Please enter both username and password.");
+        return;
     }
+
+    // Prepare data to send in the POST request
+    const data = {
+        type: 'login',
+        username: username,
+        password: password
+    };
+
+    // Send POST request to the Apps Script backend
+    fetch('https://script.google.com/macros/s/AKfycbxwzEdLBUbBpYyKOHQp4iaeWiGnmIJcNvNjDxaHk8teW1o-U-gb75eWYmSgYl-PT5dQ/exec', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Redirect to the dashboard or another page
+            window.location.href = "dashboard.html";
+        } else {
+            alert("Invalid username or password.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Something went wrong. Please try again.");
+    });
+});
+
   </script>
 </body>
 </html>
