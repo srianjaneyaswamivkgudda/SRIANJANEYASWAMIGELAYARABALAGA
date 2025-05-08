@@ -14,14 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let loggedInMember = null;
     let usernameHeader = "Username"; // Ensure these match your sheet headers exactly
     let passwordHeader = "Password";
-    let memberNameHeader = "Member Name"; // Assuming you have a "Member Name" header
-    let memberIdHeader = "Member ID";     // Assuming you have a "Member ID" header
+    let memberNameHeader = "\tName";    // Ensure this matches your sheet header exactly (note the tab!)
+    let memberIdHeader = "Member ID";
 
     function fetchSheetData() {
         fetch(fetchDataURL)
-            .then(response => response.json())
-            .then(data => {
-                membersData = data;
+            .then(response => response.text()) // Get the response as text
+            .then(html => {
+                // Extract the JSON string from within the <pre> tags
+                const jsonString = html.substring(html.indexOf('['), html.lastIndexOf(']') + 1);
+                membersData = JSON.parse(jsonString);
                 console.log("Data fetched:", membersData);
             })
             .catch(error => {
