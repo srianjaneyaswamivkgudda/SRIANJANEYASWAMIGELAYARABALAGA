@@ -1,0 +1,141 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Sri Anjaneyaswamy Balaga</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .qr-section, .utr-section, .updates {
+      margin-top: 30px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 8px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #0077cc;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .updates {
+      background: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome, Member</h2>
+
+    <h3>Your Contributions</h3>
+    <table id="contributions">
+      <tr>
+        <th>Month</th>
+        <th>Status</th>
+        <th>UTR Number</th>
+      </tr>
+      <!-- Rows will be inserted via JavaScript -->
+    </table>
+
+    <div class="qr-section">
+      <h3>Pay ₹100 via UPI</h3>
+      <img src="your-upi-qr-code.png" alt="UPI QR Code" width="200" />
+    </div>
+
+    <div class="utr-section">
+      <h3>Enter UTR Number</h3>
+      <input type="text" id="utr" placeholder="Enter UTR number" />
+      <button onclick="submitUTR()">Submit</button>
+      <p id="utr-message" style="color: green;"></p>
+    </div>
+
+    <div class="updates">
+      <h3>Admin Updates</h3>
+      <ul id="updates-list">
+        <!-- Updates will load here -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('user');
+
+    // Example fetch call - use your Google Apps Script endpoint
+    fetch('https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?type=dashboard&user=' + username)
+      .then(res => res.json())
+      .then(data => {
+        const table = document.getElementById("contributions");
+        data.contributions.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.month}</td><td>${row.status}</td><td>${row.utr}</td>`;
+          table.appendChild(tr);
+        });
+
+        const updatesList = document.getElementById("updates-list");
+        data.updates.forEach(u => {
+          const li = document.createElement("li");
+          li.textContent = `${u.date}: ${u.message}`;
+          updatesList.appendChild(li);
+        });
+      });
+
+    function submitUTR() {
+      const utr = document.getElementById('utr').value;
+      fetch('https://script.google.com/macros/s/AKfycbxwzEdLBUbBpYyKOHQp4iaeWiGnmIJcNvNjDxaHk8teW1o-U-gb75eWYmSgYl-PT5dQ/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+          type: 'utr_submit',
+          username: username,
+          utr: utr
+        })
+      }).then(res => res.json()).then(data => {
+        document.getElementById('utr-message').innerText = 'UTR submitted successfully!';
+      });
+    }
+  </script>
+</body>
+</html>
