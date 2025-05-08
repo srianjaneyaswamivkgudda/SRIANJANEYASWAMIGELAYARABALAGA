@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         memberDataDiv.innerHTML = `
             <p>Welcome, ${memberName}!</p>
             <p>Member ID: ${memberId}</p>
-            <button id="next-page-button">Go to Dashboard</button>
+            <button id="home.html">Go to Dashboard</button>
         `;
 
         const nextPageButton = document.getElementById('next-page-button');
