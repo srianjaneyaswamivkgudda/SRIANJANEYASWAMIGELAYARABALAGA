@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         memberDataDiv.innerHTML = `
             <p>Welcome, ${memberName}!</p>
             <p>Member ID: ${memberId}</p>
+            <a href="home.html">click to next view</a>
             <button id="home.html">Go to Dashboard</button>
         `;
 
