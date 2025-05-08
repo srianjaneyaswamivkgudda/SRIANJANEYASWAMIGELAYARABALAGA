@@ -14,8 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let loggedInMember = null;
     let usernameHeader = "Username"; // Ensure these match your sheet headers exactly
     let passwordHeader = "Password";
-    let memberNameHeader = "\tName";    // Ensure this matches your sheet header exactly (note the tab!)
+    let memberNameHeader = "\tName";     // Ensure this matches your sheet header exactly (note the tab!)
     let memberIdHeader = "Member ID";
+    const nextPageURL = "/dashboard.html"; // Replace with the actual URL of your next page
 
     function fetchSheetData() {
         fetch(fetchDataURL)
@@ -52,7 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayMemberData(member) {
         const memberName = member[memberNameHeader] || "Member";
         const memberId = member[memberIdHeader] || "N/A";
-        memberDataDiv.innerHTML = `<p>Welcome, ${memberName}!</p><p>Member ID: ${memberId}</p>`;
+        memberDataDiv.innerHTML = `
+            <p>Welcome, ${memberName}!</p>
+            <p>Member ID: ${memberId}</p>
+            <button id="next-page-button">Go to Dashboard</button>
+        `;
+
+        const nextPageButton = document.getElementById('next-page-button');
+        nextPageButton.addEventListener('click', function() {
+            window.location.href ='home.html;
+        });
     }
 
     fetchSheetData();
