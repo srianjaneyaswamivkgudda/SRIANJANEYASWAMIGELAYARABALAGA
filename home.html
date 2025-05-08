@@ -9,164 +9,132 @@
         body {
             margin: 0;
             font-family: sans-serif;
-            background-image: url('IMG_20250407_201008[1].jpg'); /* Replace with your image path */
+            background-image: url('your-background-image.jpg'); /* Replace with your image path */
             background-size: cover;
             background-position: center;
-            color: white; /* Default text color for better visibility on background */
-            height: 100vh; /* Ensure full viewport height */
-            overflow: hidden; /* Prevent scrollbars if content overflows */
-            display: flex;
-            flex-direction: column;
-        }
-
-        .menu {
-            background-color: rgba(0, 0, 0, 0.7); /* Slightly darker menu background */
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .menu a {
             color: white;
-            text-decoration: none;
-            font-size: 1.2em;
+            height: 100vh;
+            overflow: hidden;
+            position: relative; /* For positioning the menu button */
+        }
+
+        .menu-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 2; /* Ensure it's above the sliding menu */
+        }
+
+        .menu-button i {
+            font-size: 1.5em;
+        }
+
+        .sliding-menu {
+            position: fixed;
+            top: 0;
+            right: -250px; /* Initially hidden off-screen */
+            width: 250px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding-top: 60px; /* To accommodate the menu button */
+            z-index: 1;
+            transition: right 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            align-items: flex-start;
         }
 
-        .menu a:hover {
-            opacity: 1;
+        .sliding-menu.open {
+            right: 0; /* Slide in */
         }
 
-        .menu i {
-            font-size: 1.5em;
-            margin-bottom: 5px;
+        .sliding-menu a {
+            display: block;
+            color: lightblack;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 1.1em;
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sliding-menu a:last-child {
+            border-bottom: none;
         }
 
         .container {
-            background-color: rgba(0, 0, 0, 0.5); /* Adjust transparency as needed */
+            /* Styles for your main content area */
             padding: 20px;
             margin: 20px;
             border-radius: 10px;
-            overflow-y: auto; /* Enable vertical scrolling for content within the transparent container */
-            flex-grow: 1; /* Allow container to take up remaining vertical space */
-        }
-
-        .premium-view {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
-        }
-
-        .admin-updates {
-            padding: 15px;
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
-        }
-
-        h2 {
-            margin-top: 0;
+            color: Transparent; /* Ensure text is visible */
+            /* You can add a semi-transparent background if needed */
         }
     </style>
 </head>
 <body>
-    <div class="menu">
-        <a href="#">
-            <i class="fas fa-home"></i>
-            Home
-        </a>
-        <a href="WhatsApp Image 2025-04-29 at 8.50.28 AM.jpeg">
-            <i class="fas fa-qrcode"></i>
-            Scanner Code
+    <button class="menu-button" id="menuBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sliding-menu" id="slidingMenu">
+        <a href="#scanner">
+            <i class="fas fa-qrcode"></i> Scanner
         </a>
         <a href="paymentconfirmation.html">
-            <i class="fas fa-check-circle"></i>
-            Payment Confirmation
+            <i class="fas fa-check-circle"></i> Payment Confirmation
         </a>
-        <a href="#">
-            <i class="fas fa-bullhorn"></i>
-            Admin Updates
+        <a href="update.html">
+            <i class="fas fa-bullhorn"></i> Admin Updates
         </a>
-        <a href="#">
-            <i class="fas fa-user"></i>
-            Profile
-        </a>
-        <a href="#">
-            <i class="fas fa-cog"></i>
-            Settings
-        </a>
-    </div>
+        </div>
 
     <div class="container">
-        <section class="premium-view">
-            <h2>Premium Content</h2>
-            <p>Exclusive content for our premium members. Enjoy ad-free experience, early access to features, and special perks.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        <section id="home">
+            <h2>Welcome Home</h2>
+            <p>This is the main content of your home page.</p>
         </section>
 
-        <section class="admin-updates">
+        <section id="scanner">
+            <h2>Scanner Code</h2>
+            <p>Content related to the scanner functionality will go here.</p>
+        </section>
+
+        <section id="paymentconfirmation.html">
+            <h2>Payment Confirmation</h2>
+            <p>Information about payment confirmations will be displayed here.</p>
+        </section>
+
+        <section id="update.html">
             <h2>Admin Updates</h2>
             <ul>
-                <li><i class="fas fa-info-circle"></i> New feature released: Enhanced search functionality.</li>
-                <li><i class="fas fa-wrench"></i> Maintenance scheduled for May 10th, 2025, between 2 AM and 4 AM IST.</li>
-                <li><i class="fas fa-user-plus"></i> Welcome our new premium members!</li>
-                <li><i class="fas fa-gift"></i> Special offer for the month of May: 20% off on all premium subscriptions.</li>
-                <li><i class="fas fa-bug"></i> Bug fixes implemented related to user profile editing.</li>
+                <li>Latest updates from the administration.</li>
+                <li>Check back for important announcements.</li>
             </ul>
         </section>
 
-        <section>
-            <h2>Scanner Code Functionality (Placeholder)</h2>
-            <p>This section will eventually house the scanner code interface or information.</p>
-        </section>
-
-        <section>
-            <h2>Payment Confirmation (Placeholder)</h2>
-            <p>Here you will see the status of your recent payments and confirmation details.</p>
-        </section>
-    </div>
+        </div>
 
     <script>
-        // You can add any dynamic JavaScript functionality here if needed
-        // For example, handling clicks on the menu items to navigate to different sections or pages.
-        const menuLinks = document.querySelectorAll('.menu a');
-        const container = document.querySelector('.container');
-        const premiumSection = document.querySelector('.premium-view');
-        const adminUpdatesSection = document.querySelector('.admin-updates');
+        const menuBtn = document.getElementById('menuBtn');
+        const slidingMenu = document.getElementById('slidingMenu');
 
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                const text = this.textContent.trim();
+        menuBtn.addEventListener('click', () => {
+            slidingMenu.classList.toggle('open');
+        });
 
-                if (text === 'Home') {
-                    container.scrollTop = 0; // Scroll to the top
-                } else if (text === 'Scanner Code') {
-                    // Implement scanner code functionality or navigate to a scanner page
-                    alert('Scanner Code functionality will be implemented here.');
-                } else if (text === 'Payment Confirmation') {
-                    // Implement payment confirmation display or navigate to payment history
-                    alert('Payment Confirmation details will be shown here.');
-                } else if (text === 'Admin Updates') {
-                    adminUpdatesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else if (text === 'Premium') { // If you revert to 'Premium' in the menu
-                    premiumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else if (text === 'Profile') {
-                    alert('Navigating to Profile page.');
-                    // window.location.href = '/profile.html'; // Example navigation
-                } else if (text === 'Settings') {
-                    alert('Navigating to Settings page.');
-                    // window.location.href = '/settings.html'; // Example navigation
-                }
-            });
+        // Optional: Close the menu if the user clicks outside of it
+        document.addEventListener('click', (event) => {
+            if (!slidingMenu.contains(event.target) && !menuBtn.contains(event.target) && slidingMenu.classList.contains('open')) {
+                slidingMenu.classList.remove('open');
+            }
         });
     </script>
 </body>
