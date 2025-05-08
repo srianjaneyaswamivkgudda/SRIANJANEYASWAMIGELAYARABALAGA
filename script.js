@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <p>Welcome, ${memberName}!</p>
             <p>Member ID: ${memberId}</p>
             <a href="home.html">click to next view</a>
-            <button href="home.html">Go to Dashboard</button>
         `;
 
         const nextPageButton = document.getElementById('next-page-button');
