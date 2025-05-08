@@ -1,96 +1,107 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Sri Anjaneyaswamy Balaga</title>
-  <style>
-    body {
-      background-image: url('your-background.jpg'); /* add a nice image here */
-      background-size: cover;
-      font-family: sans-serif;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .login-container {
-      background-color: rgba(255, 255, 255, 0.8);
-      padding: 20px;
-      border-radius: 12px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 10px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 15px;
-      background-color: #2d89ef;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login - Sri Anjaneyaswamy Balaga</title>
+    <style>
+        body {
+            background-image: url('your-background.jpg'); /* Add a nice image here */
+            background-size: cover;
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #2d89ef;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px; /* Slightly larger font for better readability */
+        }
+        button:hover {
+            background-color: #1a73e8; /* Darker shade on hover for better interaction */
+        }
+        h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-  <div class="login-container">
-    <h3>Member Login</h3>
-    <input type="text" placeholder="Username" id="username" />
-    <input type="password" placeholder="Password" id="password" />
-    <button onclick="login()">Login</button>
-    <p id="error" style="color:red;"></p>
-  </div>
+    <div class="login-container">
+        <h3>Member Login</h3>
+        <input type="text" placeholder="Username" id="username" />
+        <input type="password" placeholder="Password" id="password" />
+        <button id="loginButton">Login</button>
+        <p id="error"></p>
+    </div>
 
-  <script>
-// Example login button event handler
-document.getElementById('loginButton').addEventListener('click', function() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('error');
 
-    // Check if username and password are entered
-    if (!username || !password) {
-        alert("Please enter both username and password.");
-        return;
-    }
+            if (!username || !password) {
+                errorElement.textContent = "Please enter both username and password.";
+                return;
+            } else {
+                errorElement.textContent = "";
+            }
 
-    // Prepare data to send in the POST request
-    const data = {
-        type: 'login',
-        username: username,
-        password: password
-    };
+            const data = {
+                type: 'login',
+                username: username,
+                password: password
+            };
 
-    // Send POST request to the Apps Script backend
-    fetch('https://script.google.com/macros/s/AKfycbxwzEdLBUbBpYyKOHQp4iaeWiGnmIJcNvNjDxaHk8teW1o-U-gb75eWYmSgYl-PT5dQ/exec', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            // Redirect to the dashboard or another page
-            window.location.href = "dashboard.html";
-        } else {
-            alert("Invalid username or password.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Something went wrong. Please try again.");
-    });
-});
-
-  </script>
+            fetch('https://script.google.com/macros/s/AKfycbxwzEdLBUbBpYyKOHQp4iaeWiGnmIJcNvNjDxaHk8teW1o-U-gb75eWYmSgYl-PT5dQ/exec', { // Replace with your actual web app URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    window.location.href = "dashboard.html"; // Redirect on successful login
+                } else {
+                    errorElement.textContent = "Invalid username or password.";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                errorElement.textContent = "Something went wrong. Please try again later.";
+            });
+        });
+    </script>
 </body>
 </html>
