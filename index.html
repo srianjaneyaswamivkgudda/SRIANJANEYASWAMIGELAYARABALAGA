@@ -150,13 +150,31 @@
       right: 40px;
     }
 
-    /* Login heading */
+    /* Login heading with typing effect */
     .login-box h2 {
       text-align: center;
       margin-bottom: 25px;
       font-weight: 700;
       font-size: 26px;
       color: #2f3640;
+    }
+
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      border-right: 3px solid #2f3640;
+      white-space: nowrap;
+      animation: typing 2.5s steps(20, end), blink 0.75s step-end infinite;
+      font-family: monospace;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
     }
 
     /* Form styling */
@@ -220,7 +238,7 @@
     <div class="paw left"></div>
     <div class="paw right"></div>
 
-    <h2>Panda Login Form</h2>
+    <h2><span class="typewriter">Panda Login Form</span></h2>
 
     <form id="login-form">
       <label for="username">Username</label>
@@ -233,5 +251,7 @@
       <p class="error" id="login-error" aria-live="polite"></p>
     </form>
   </div>
+  <script src="script.js">
+    <\script>
 </body>
 </html>
