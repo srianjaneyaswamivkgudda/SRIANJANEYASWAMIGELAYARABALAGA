@@ -6,6 +6,37 @@
   <title>Member Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
+    .panda-face {
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border-radius: 50%;
+  border: 4px solid #333;
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url('https://i.ibb.co/8MtbSJK/panda-face.png'); /* optional: use a real panda face */
+  background-size: cover;
+}
+
+.paw {
+  width: 40px;
+  height: 40px;
+  background: #333;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -20px;
+}
+
+.paw-l {
+  left: 50px;
+}
+
+.paw-r {
+  right: 50px;
+}
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -88,7 +119,11 @@
 </head>
 <body>
   <div class="login-box" id="login-section">
-    <h2>Member Login</h2>
+    <div class="login-box" id="login-section">
+  <div class="panda-face"></div>
+  <div class="paw paw-l"></div>
+  <div class="paw paw-r"></div>
+  <h2>Member Login</h2>
     <form id="login-form">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" required />
