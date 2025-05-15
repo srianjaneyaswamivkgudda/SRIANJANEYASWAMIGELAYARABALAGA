@@ -2,41 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Member Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panda Login Form</title>
   <style>
-    .panda-face {
-  width: 80px;
-  height: 80px;
-  background: #fff;
-  border-radius: 50%;
-  border: 4px solid #333;
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-image: url('https://i.ibb.co/8MtbSJK/panda-face.png'); /* optional: use a real panda face */
-  background-size: cover;
-}
-
-.paw {
-  width: 40px;
-  height: 40px;
-  background: #333;
-  border-radius: 50%;
-  position: absolute;
-  bottom: -20px;
-}
-
-.paw-l {
-  left: 50px;
-}
-
-.paw-r {
-  right: 50px;
-}
-
+    /* Reset and base styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -58,89 +27,211 @@
       100% { background-position: 100% 50%; }
     }
 
+    /* Container */
     .login-box {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 30px 40px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      width: 300px;
-      color: #fff;
+      position: relative;
+      background: #f7ca44;
+      border-radius: 20px;
+      padding: 60px 40px 40px;
+      width: 320px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      color: #2f3640;
     }
 
+    /* Panda face */
+    .panda-face {
+      position: absolute;
+      top: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 120px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px #2f3640;
+    }
+
+    /* Panda ears */
+    .panda-face::before,
+    .panda-face::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      width: 40px;
+      height: 50px;
+      background: #2f3640;
+      border-radius: 50%;
+    }
+
+    .panda-face::before {
+      left: 10px;
+    }
+
+    .panda-face::after {
+      right: 10px;
+    }
+
+    /* Panda eyes */
+    .eye {
+      position: absolute;
+      top: 40px;
+      width: 30px;
+      height: 35px;
+      background: #2f3640;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      box-shadow: inset -6px -3px 0 0 #fff;
+    }
+
+    .eye.left {
+      left: 30px;
+    }
+
+    .eye.right {
+      right: 30px;
+    }
+
+    /* Panda cheeks */
+    .cheek {
+      position: absolute;
+      top: 75px;
+      width: 20px;
+      height: 20px;
+      background: #ff6f91;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    .cheek.left {
+      left: 25px;
+    }
+
+    .cheek.right {
+      right: 25px;
+    }
+
+    /* Panda nose and mouth */
+    .nose {
+      position: absolute;
+      top: 85px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 12px;
+      background: #2f3640;
+      border-radius: 50% / 70%;
+    }
+
+    .mouth {
+      position: absolute;
+      top: 98px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 12px;
+      border-bottom: 3px solid #2f3640;
+      border-radius: 0 0 20px 20px;
+    }
+
+    /* Panda paws */
+    .paw {
+      position: absolute;
+      bottom: -25px;
+      width: 50px;
+      height: 50px;
+      background: #2f3640;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    }
+
+    .paw.left {
+      left: 40px;
+    }
+
+    .paw.right {
+      right: 40px;
+    }
+
+    /* Login heading */
     .login-box h2 {
       text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 26px;
+      color: #2f3640;
     }
 
+    /* Form styling */
     .login-box label {
       display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
+      margin-bottom: 6px;
+      font-weight: 600;
     }
 
     .login-box input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       border: none;
-      border-radius: 8px;
+      border-bottom: 2px solid #2f3640;
+      font-size: 16px;
+      background: transparent;
       outline: none;
+    }
+
+    .login-box input::placeholder {
+      color: #999;
     }
 
     .login-box button {
       width: 100%;
-      padding: 10px;
-      background: #ffffff;
-      color: #333;
+      padding: 12px;
+      background: #2f3640;
+      color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 16px;
       cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease;
     }
 
     .login-box button:hover {
-      background: #f1f1f1;
+      background: #1b252f;
     }
 
     .error {
-      color: #ff4d4d;
-      font-size: 0.9em;
+      color: #dc3545;
+      font-size: 14px;
       text-align: center;
-    }
-
-    #member-data-section {
-      display: none;
-      color: white;
+      margin-top: -10px;
+      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
-  <div class="login-box" id="login-section">
-    <div class="login-box" id="login-section">
-  <div class="panda-face"></div>
-  <div class="paw paw-l"></div>
-  <div class="paw paw-r"></div>
-  <h2>Member Login</h2>
+  <div class="login-box">
+    <div class="panda-face">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="cheek left"></div>
+      <div class="cheek right"></div>
+      <div class="nose"></div>
+      <div class="mouth"></div>
+    </div>
+    <div class="paw left"></div>
+    <div class="paw right"></div>
+
+    <h2>Panda Login Form</h2>
+
     <form id="login-form">
       <label for="username">Username</label>
-      <input type="text" id="username" name="username" required />
+      <input type="text" id="username" name="username" placeholder="Enter username" required />
 
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+      <input type="password" id="password" name="password" placeholder="Enter password" required />
 
       <button type="submit">Login</button>
-      <p id="login-error" class="error" aria-live="polite"></p>
+      <p class="error" id="login-error" aria-live="polite"></p>
     </form>
   </div>
-
-  <div id="member-data-section">
-    <h2>Member Data</h2>
-    <div id="member-data"></div>
-  </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
